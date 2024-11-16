@@ -1,6 +1,10 @@
 #include "dialog.h"
 
-int main() {
-	init_dialog();
-	return 0;
+int main(void) {
+    if (init_dialog() != 0) {
+        return 1;
+    }
+    
+    cleanup_dialog();
+    return 0;
 }

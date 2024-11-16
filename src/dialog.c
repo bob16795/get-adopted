@@ -1,14 +1,112 @@
+//dialog.c
 #include "dialog.h"
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
-// Get the ID from format <XXXX>
+//Global variables
+struct dialogLine* g_allText = NULL;
+int g_totalLines = 0;
+
+
+int init_dialog(void) {
+    FILE* fptr = fopen("../ass/dialog.txt", "r");
+    if (fptr == NULL) {
+        printf("Error opening file\n");
+        return 1;
+    }
+    
+    char line[1035];
+    while (fgets(line, sizeof(line), fptr)) {
+        if (line[0] != '<') continue; //Skip invalid lines
+        
+        g_totalLines++;
+        struct dialogLine* temp = realloc(g_allText, g_totalLines * sizeof(struct dialogLine));
+        if (temp == NULL) {
+            printf("Memory allocation failed\n");
+            cleanup_dialog();
+            fclose(fptr);
+            return 1;
+        }
+        g_allText = temp;
+        
+        //Parse the line
+        g_allText[g_totalLines - 1].identifier = getID(line);
+        g_allText[g_totalLines - 1].characterFrameID = getFrameID(line);
+        g_allText[g_totalLines - 1].dialog = getDialog(line);
+        
+        if (g_allText[g_totalLines - 1].dialog == NULL) {
+            printf("Failed to allocate dialog for line %d\n", g_totalLines);
+            cleanup_dialog();
+            fclose(fptr);
+            return 1;
+        }
+        
+        printf("Line %d (Frame %d): %s\n", 
+               g_allText[g_totalLines - 1].identifier,
+               g_allText[g_totalLines - 1].characterFrameID,
+               g_allText[g_totalLines - 1].dialog);
+    }
+    
+    fclose(fptr);
+    return 0;
+}
+
+void cleanup_dialog(void) {
+    if (g_allText != NULL) {
+        for (int i = 0; i < g_totalLines; i++) {
+            free(g_allText[i].dialog);
+        }
+        free(g_allText);
+        g_allText = NULL;
+    }
+    g_totalLines = 0;
+}
+
+char** parseOptions(struct dialogLine* allDialog, int* options, int numOptions) {
+    if (allDialog == NULL || options == NULL || numOptions <= 0) {
+        return NULL;
+    }
+    
+    //Allocate array of char pointers
+    char** optionsOutput = calloc(numOptions, sizeof(char*));
+    if (optionsOutput == NULL) return NULL;
+    
+    //For each option, directly get the dialog using the ID as index
+    for (int i = 0; i < numOptions; i++) {
+        int id = options[i];
+        if (id >= 0 && id < g_totalLines) {  //Check bounds
+            optionsOutput[i] = strdup(allDialog[id].dialog);
+            if (optionsOutput[i] == NULL) {
+                freeOptions(optionsOutput, i);
+                return NULL;
+            }
+        } else {
+            optionsOutput[i] = strdup("Invalid option");
+            if (optionsOutput[i] == NULL) {
+                freeOptions(optionsOutput, i);
+                return NULL;
+            }
+        }
+    }
+    
+    return optionsOutput;
+}
+
+void freeOptions(char** options, int numOptions) {
+    if (options != NULL) {
+        for (int i = 0; i < numOptions; i++) {
+            free(options[i]);
+        }
+        free(options);
+    }
+}
+
+//Get the first ID (LineID) from format <XXXX><YYYY>
 int getID(const char* line) {
-    char id_str[5] = {0};  // Only take 4 digits
-    // Skip the '<' and copy until '>'
-    int i = 1;  // Start after '<'
+    char id_str[5] = {0}; //Only take 4 digits
+    //Skip the '<' and copy until '>'
+    int i = 1; //Start after '<'
     while (line[i] != '>' && i < 5) {
         id_str[i-1] = line[i];
         i++;
@@ -16,51 +114,41 @@ int getID(const char* line) {
     return atoi(id_str);
 }
 
-// Get the dialog text after the ID
+//Get the second ID (FrameID) from format <XXXX><YYYY>
+int getFrameID(const char* line) {
+    const char* frame_start = strchr(line, '>');
+    if (frame_start == NULL || frame_start[1] != '<') return 0;
+    
+    char frame_str[5] = {0};
+    int i = 0;
+    frame_start += 2; //Skip '><'
+    
+    while (frame_start[i] != '>' && i < 4) {
+        frame_str[i] = frame_start[i];
+        i++;
+    }
+    
+    return atoi(frame_str);
+}
+
 char* getDialog(const char* line) {
-    const char* text_start = strchr(line, '>');
+    //Find the second '>' character
+    const char* first_bracket = strchr(line, '>');
+    if (first_bracket == NULL) return NULL;
+    
+    const char* text_start = strchr(first_bracket + 1, '>');
     if (text_start == NULL) return NULL;
     
-    text_start++;  // Move past the '>'
+    text_start++; //Move past the second '>'
     size_t len = strlen(text_start);
     char* dialog = malloc(len + 1);
     if (dialog == NULL) return NULL;
     
     strcpy(dialog, text_start);
-    // Remove trailing newline if present
+    //Remove trailing newline if present
     if (len > 0 && dialog[len-1] == '\n') {
         dialog[len-1] = '\0';
     }
     
     return dialog;
-}
-
-int init_dialog() {
-    struct dialogLine* allText = NULL;
-    int numLines = 0;
-    
-    FILE* fptr = fopen("../ass/dialog.txt", "r");
-    if (fptr == NULL) {
-        printf("Error opening file\n");
-        return 1;
-    }
-    
-    char line[1029];
-    while (fgets(line, sizeof(line), fptr)) {
-        if (line[0] != '<') continue;  // Skip invalid lines
-        
-        numLines++;
-        struct dialogLine* temp = realloc(allText, numLines * sizeof(struct dialogLine));
-        if (temp == NULL) {
-            printf("Memory allocation failed\n");
-            break;
-        }
-        allText = temp;
-        
-        //Parse the line
-        allText[numLines - 1].identifier = getID(line);
-        allText[numLines - 1].dialog = getDialog(line);
-    }
-    
-    return 0;
 }

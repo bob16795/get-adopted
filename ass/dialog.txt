@@ -264,12 +264,12 @@
 <0181><0002><0000><+00>Well, Travis, you weren't kiddin' when you said I was special. Ain't no other woman who'd put up with all this, but I wouldn't have it any other way.
 <0182><0016><0000><+00>And I wouldn't trade you for nothin', Tabitha. Now, let's pack up the kids and hit the next Limp Bizkit show—they're playin' down at the fairgrounds!
 <0183><0009><0000><+00>As Creed's "With Arms Wide Open" plays on the stereo, Tabitha smiles. Life with Travis might be messy, but it's hers, and she wouldn't trade it for the world.
-//Ending Date Lines
-<0184><0000><0000><+00>Cruz end date.
-<0185><0000><0000><+00>Jack end date.
-<0186><0000><0000><+00>SenseiMcCool end date.
-<0187><0000><0000><+00>Tony end date.
-<0188><0000><0000><+00>Travis end date.
+//Either person ends the date
+<0184><0000><0000><+00>Cruz doesn't text back, you question if you did anything wrong.
+<0185><0000><0000><+00>Well it seems like my ex wife lives in every women I stumble by, dont talk to me again!
+<0186><0000><0000><+00>Seems you are not as sugoi as I thought ma'lady, it seems we part ways.
+<0187><0000><0000><+00>You will never be her as hard as you try, I will find someone to replace her....
+<0188><0000><0000><+00>Yeah well maybe my ex-wifes boyfriend has a friend I can be with. 
 //Date prompt line
 <0189><0000><0000><+00>What person do you want to date?
 <0190><0000><0000><+00>Person 1

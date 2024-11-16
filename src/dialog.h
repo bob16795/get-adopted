@@ -6,6 +6,7 @@ typedef struct {
     int identifier;
     int characterFrameID;
     int sceneID;
+    int pointGain;
     char* dialog;
 } DialogLine;
 

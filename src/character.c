@@ -1,12 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stddef.h>
 
-//Structure to hold ID-path pairs
-struct FrameData {
-    int id;
-    char* path;
-};
+#include "raylib.h"
+#include "character.h"
+
 
 //Global array to store frame data
 static struct FrameData* frameArray = NULL;
@@ -63,8 +62,10 @@ static int init_frame_array(FILE* fptr) {
         
         //Store in array
         frameArray[index].id = atoi(id_str);
-        frameArray[index].path = path;
+        frameArray[index].tex = LoadTexture(path);
         index++;
+
+        free(path);
     }
     
     //Sort array by ID for binary search
@@ -72,18 +73,18 @@ static int init_frame_array(FILE* fptr) {
     return 0;
 }
 
-char* getPath(int target_id) {
+int get_texture(int target_id, Texture* tex) {
     //Initialize on first call
     if (!frameArray) {
         FILE* fptr = fopen("../ass/frameIDLookup.txt", "r");
         if (fptr == NULL) {
             printf("Error opening file\n");
-            return NULL;
+            return 1;
         }
         
         if (init_frame_array(fptr)) {
             fclose(fptr);
-            return NULL;
+            return 1;
         }
         
         fclose(fptr);
@@ -91,20 +92,16 @@ char* getPath(int target_id) {
     
     //Perform binary search
     struct FrameData key = { .id = target_id };
-    struct FrameData* result = bsearch(&key, frameArray, frameCount, sizeof(struct FrameData), compare_frames);
+    tex = bsearch(&key, frameArray, frameCount, sizeof(struct FrameData), compare_frames);
     
-    if (result) {
-        return strdup(result->path);  //Return copy of path
-    }
-    
-    return NULL;
+    return 0;
 }
 
 //Don't forget to add cleanup function
 void cleanup_frame_data(void) {
     if (frameArray) {
         for (int i = 0; i < frameCount; i++) {
-            free(frameArray[i].path);
+            UnloadTexture(frameArray[i].tex);
         }
         free(frameArray);
         frameArray = NULL;

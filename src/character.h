@@ -1,6 +1,5 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
-
 #include "raylib.h"
 #include <stddef.h>
 

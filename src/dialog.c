@@ -15,7 +15,7 @@ int init_dialog(void) {
         return 1;
     }
     
-    char line[1035];
+    char line[1042];
     while (fgets(line, sizeof(line), fptr)) {
         if (line[0] != '<' || (line[0] == '/' && line[1] == '/')) continue; //Skip invalid lines
         
@@ -32,6 +32,7 @@ int init_dialog(void) {
         //Parse the line
         g_allText[g_totalLines - 1].identifier = getID(line);
         g_allText[g_totalLines - 1].characterFrameID = getFrameID(line);
+        g_allText[g_totalLines - 1].sceneID = getSceneID(line);
         g_allText[g_totalLines - 1].dialog = get_dialog(line);
         
         if (g_allText[g_totalLines - 1].dialog == NULL) {
@@ -41,10 +42,11 @@ int init_dialog(void) {
             return 1;
         }
         
-        // printf("Line %d (Frame %d): %s\n", 
-        //        g_allText[g_totalLines - 1].identifier,
-        //        g_allText[g_totalLines - 1].characterFrameID,
-        //        g_allText[g_totalLines - 1].dialog);
+        printf("Line %d (Frame %d) (Scene %d): %s\n", 
+               g_allText[g_totalLines - 1].identifier,
+               g_allText[g_totalLines - 1].characterFrameID,
+               g_allText[g_totalLines - 1].sceneID,
+               g_allText[g_totalLines - 1].dialog);
     }
     
     fclose(fptr);
@@ -105,7 +107,7 @@ void freeOptions(char** options, int numOptions) {
     }
 }
 
-//Get the first ID (LineID) from format <XXXX><YYYY>
+//Get the first ID (LineID) from format <XXXX><YYYY><ZZZZ>
 int getID(const char* line) {
     char id_str[5] = {0}; //Only take 4 digits
     //Skip the '<' and copy until '>'
@@ -117,7 +119,7 @@ int getID(const char* line) {
     return atoi(id_str);
 }
 
-//Get the second ID (FrameID) from format <XXXX><YYYY>
+//Get the second ID (FrameID) from format <XXXX><YYYY><ZZZZ>
 int getFrameID(const char* line) {
     const char* frame_start = strchr(line, '>');
     if (frame_start == NULL || frame_start[1] != '<') return 0;
@@ -134,12 +136,43 @@ int getFrameID(const char* line) {
     return atoi(frame_str);
 }
 
+//Get the third ID (SceneID) from format <XXXX><YYYY><ZZZZ>
+int getSceneID(const char* line) {
+    // Find first '>'
+    const char* first = strchr(line, '>');
+    if (first == NULL) return 0;
+    
+    // Find second '>'
+    const char* second = strchr(first + 1, '>');
+    if (second == NULL) return 0;
+    
+    // Find start of third tag
+    const char* scene_start = strchr(second + 1, '<');
+    if (scene_start == NULL) return 0;
+    
+    // Skip the '<'
+    scene_start++;
+    
+    char scene_str[5] = {0};
+    int i = 0;
+    
+    while (scene_start[i] != '>' && i < 4) {
+        scene_str[i] = scene_start[i];
+        i++;
+    }
+    
+    return atoi(scene_str);
+}
+
 char* get_dialog(const char* line) {
     //Find the second '>' character
     const char* first_bracket = strchr(line, '>');
     if (first_bracket == NULL) return NULL;
     
-    const char* text_start = strchr(first_bracket + 1, '>');
+    const char* second_bracket = strchr(first_bracket + 1, '>');
+    if (second_bracket == NULL) return NULL;
+
+    const char* text_start = strchr(second_bracket + 1, '>');
     if (text_start == NULL) return NULL;
     
     text_start++; //Move past the second '>'

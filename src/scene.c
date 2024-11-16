@@ -1,37 +1,33 @@
-#include "character.h"
+#include "scene.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stddef.h>
-
-#include "raylib.h"
-#include "character.h"
 
 
 //Global array to store frame data
-static struct FrameData* frameArray = NULL;
-static int frameCount = 0;
+static struct sceneData* sceneArray = NULL;
+static int sceneCount = 0;
 
 //Compare function for binary search
-static int compare_frames(const void* a, const void* b) {
-    return ((struct FrameData*)a)->id - ((struct FrameData*)b)->id;
+static int compare_scenes(const void* a, const void* b) {
+    return ((struct sceneData*)a)->id - ((struct sceneData*)b)->id;
 }
 
-//Initialize the frame data array
-static int init_frame_array(FILE* fptr) {
+//Initialize the scene data array
+static int init_scene_array(FILE* fptr) {
     char line[69];
-    frameCount = 0;
+    sceneCount = 0;
     
     //First count valid lines
     while (fgets(line, sizeof(line), fptr)) {
         if (line[0] == '<' && !(line[0] == '/' && line[1] == '/')) {
-            frameCount++;
+            sceneCount++;
         }
     }
     
     //Allocate array
-    frameArray = malloc(frameCount * sizeof(struct FrameData));
-    if (!frameArray) return 1;
+    sceneArray = malloc(sceneCount * sizeof(struct sceneData));
+    if (!sceneArray) return 1;
     
     //Reset file pointer
     rewind(fptr);
@@ -62,51 +58,52 @@ static int init_frame_array(FILE* fptr) {
         }
         
         //Store in array
-        frameArray[index].id = atoi(id_str);
-        frameArray[index].tex = LoadTexture(path);
+        sceneArray[index].id = atoi(id_str);
+        sceneArray[index].path = path;
         index++;
-
-        free(path);
     }
     
     //Sort array by ID for binary search
-    qsort(frameArray, frameCount, sizeof(struct FrameData), compare_frames);
+    qsort(sceneArray, sceneCount, sizeof(struct sceneData), compare_scenes);
     return 0;
 }
 
-
-int get_texture(int target_id, Texture* tex) {
+char* getScenePath(int target_id) {
     //Initialize on first call
-    if (!frameArray) {
-        FILE* fptr = fopen("./frameIDLookup.txt", "r");
+    if (!sceneArray) {
+        FILE* fptr = fopen("../ass/sceneIDLookup.txt", "r");
         if (fptr == NULL) {
             printf("Error opening file\n");
-            return 1;
+            return NULL;
         }
         
-        if (init_frame_array(fptr)) {
+        if (init_scene_array(fptr)) {
             fclose(fptr);
-            return 1;
+            return NULL;
         }
         
         fclose(fptr);
     }
     
     //Perform binary search
-    struct FrameData key = { .id = target_id };
-    tex = bsearch(&key, frameArray, frameCount, sizeof(struct FrameData), compare_frames);
+    struct sceneData key = { .id = target_id };
+    struct sceneData* result = bsearch(&key, sceneArray, sceneCount, sizeof(struct sceneData), compare_scenes);
     
-    return 0;
+    if (result) {
+        return strdup(result->path);  //Return copy of path
+    }
+    
+    return NULL;
 }
 
 //Don't forget to add cleanup function
-void cleanup_frame_data(void) {
-    if (frameArray) {
-        for (int i = 0; i < frameCount; i++) {
-            UnloadTexture(frameArray[i].tex);
+void cleanup_scene_data(void) {
+    if (sceneArray) {
+        for (int i = 0; i < sceneCount; i++) {
+            free(sceneArray[i].path);
         }
-        free(frameArray);
-        frameArray = NULL;
-        frameCount = 0;
+        free(sceneArray);
+        sceneArray = NULL;
+        sceneCount = 0;
     }
 }

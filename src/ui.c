@@ -22,6 +22,16 @@ int init_ui(GameUI *ui, Dialog *dia) {
         &ui_play,
         ui
     );
+    ui->game.dialog = 0;
+    ui->game.dialog_box = init_textbox(
+        (Rectangle) {
+            TEXTBOX_PADDING,
+            HEIGHT - TEXTBOX_HEIGHT - TEXTBOX_PADDING,
+            WIDTH - TEXTBOX_PADDING * 2,
+            TEXTBOX_HEIGHT
+        }
+    );
+
     ui->dia = dia;
     ui->state = STATE_MENU;
 
@@ -31,6 +41,7 @@ int init_ui(GameUI *ui, Dialog *dia) {
 void update_ui(GameUI *ui) {
     const Vector2 mouse_pos = GetMousePosition();
     const int click = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
+    const float dt = GetFrameTime();
 
     switch (ui->state) {
         case STATE_MENU:
@@ -38,6 +49,8 @@ void update_ui(GameUI *ui) {
 
             break;
         case STATE_GAME:
+            update_textbox(&ui->game.dialog_box, dt);
+
             break;
     }
 }
@@ -63,20 +76,22 @@ void draw_ui(GameUI *ui) {
 
             break;
         case STATE_GAME:
-            DialogLine line = get_line(ui->dia, ui_dialog);
-            Texture tex;
-            if (get_texture(line.characterFrameID, &tex)) {
-                DrawTexturePro(
-                    tex,
-                    (Rectangle){0, 0, (float)tex.width, (float)tex.height},
-                    (Rectangle){0, 0, WIDTH, HEIGHT},
-                    (Vector2){0, 0},
-                    0,
-                    WHITE
-                );
-            }
+            draw_textbox(&ui->game.dialog_box);
+            
+            // DialogLine line = get_line(ui->dia, ui_dialog);
+            // Texture tex;
+            // if (get_texture(line.characterFrameID, &tex)) {
+            //     DrawTexturePro(
+            //         tex,
+            //         (Rectangle){0, 0, (float)tex.width, (float)tex.height},
+            //         (Rectangle){0, 0, WIDTH, HEIGHT},
+            //         (Vector2){0, 0},
+            //         0,
+            //         WHITE
+            //     );
+            // }
 
-            DrawText(line.dialog, 1, 1, 50, LIGHTGRAY);
+            // DrawText(line.dialog, 1, 1, 50, LIGHTGRAY);
             break;
     }
 

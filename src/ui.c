@@ -47,7 +47,7 @@ void update_ui(GameUI *ui) {
     const int click = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
     const float dt = GetFrameTime();
 
-    int happynessPoint = 0;
+
 
     switch (ui->state) {
         case STATE_MENU:
@@ -60,9 +60,19 @@ void update_ui(GameUI *ui) {
             if (ui->game.dialog_box.done) {
                 if (IsKeyPressed(KEY_ENTER)) {
                     DialogLine line = get_line(ui->dia, ui->game.dialog);
-                    happynessPoint += line.pointGain;
-                    if (happynessPoint < -1) {
-                        happynessPoint = 0;
+                    ui->game.happynessPoint += line.pointGain;
+                    if (line.characterID != 0) {
+                        ui->game.currChar = line.characterID;
+                    }
+                    if (ui->game.happynessPoint < -1) {
+                        ui->game.happynessPoint = 0;
+                        switch (ui->game.currChar) {
+                            case 1: line = get_line(ui->dia, 184); break;
+                            case 2: line = get_line(ui->dia, 185); break;
+                            case 3: line = get_line(ui->dia, 187); break;
+                            case 4: line = get_line(ui->dia, 186); break;
+                            case 5: line = get_line(ui->dia, 188); break;
+                        }
                     }
                     if (line.next_count) {
                         ui->game.dialog = line.next[0];

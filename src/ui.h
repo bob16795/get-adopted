@@ -19,11 +19,14 @@ typedef struct {
     struct {
         int dialog;
         TextBox dialog_box;
+        int happynessPoint;
+        int currChar;
     } game;
 
     Dialog *dia;
 
     State state;
+
 } GameUI;
 
 static const char* APP_NAME = "Dad Picker";

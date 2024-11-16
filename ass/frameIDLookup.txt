@@ -6,7 +6,7 @@
 <0006>./Characters/JackHappy.png
 <0007>./Characters/LesterAngry.png
 <0008>./Characters/LesterHappy.png
-<0010>./Characters/LesterIdol.png
+<0009>./Characters/LesterIdol.png
 <0011>./Characters/SenseiAngry.png
 <0012>./Characters/SenseiHappy.png
 <0013>./Characters/SensaiIdol.png

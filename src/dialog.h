@@ -10,6 +10,7 @@ typedef struct {
     char* dialog;
     int next_count;
     int* next;
+    int characterID;
 } DialogLine;
 
 typedef struct {

@@ -66,6 +66,8 @@ static int init_frame_array(FILE* fptr) {
         frameArray[index].tex = LoadTexture(path);
         index++;
 
+        printf("%d %s \n", frameArray[index].id, frameArray[index].tex);
+
         free(path);
     }
     

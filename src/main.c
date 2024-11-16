@@ -11,7 +11,7 @@ int main(void) {
     loop_ui();
 
 	deinit_ui();
-    cleanup_dialog();
+    deinit_dialog();
     return 0;
 }   
 

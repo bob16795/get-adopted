@@ -8,9 +8,8 @@
 struct dialogLine* g_allText = NULL;
 int g_totalLines = 0;
 
-
 int init_dialog(void) {
-    FILE* fptr = fopen("../ass/dialog.txt", "r");
+    FILE* fptr = fopen(dialog_file, "r");
     if (fptr == NULL) {
         printf("Error opening file\n");
         return 1;
@@ -24,7 +23,7 @@ int init_dialog(void) {
         struct dialogLine* temp = realloc(g_allText, g_totalLines * sizeof(struct dialogLine));
         if (temp == NULL) {
             printf("Memory allocation failed\n");
-            cleanup_dialog();
+            deinit_dialog();
             fclose(fptr);
             return 1;
         }
@@ -33,11 +32,11 @@ int init_dialog(void) {
         //Parse the line
         g_allText[g_totalLines - 1].identifier = getID(line);
         g_allText[g_totalLines - 1].characterFrameID = getFrameID(line);
-        g_allText[g_totalLines - 1].dialog = getDialog(line);
+        g_allText[g_totalLines - 1].dialog = get_dialog(line);
         
         if (g_allText[g_totalLines - 1].dialog == NULL) {
             printf("Failed to allocate dialog for line %d\n", g_totalLines);
-            cleanup_dialog();
+            deinit_dialog();
             fclose(fptr);
             return 1;
         }
@@ -52,7 +51,7 @@ int init_dialog(void) {
     return 0;
 }
 
-void cleanup_dialog(void) {
+void deinit_dialog(void) {
     if (g_allText != NULL) {
         for (int i = 0; i < g_totalLines; i++) {
             free(g_allText[i].dialog);
@@ -131,7 +130,7 @@ int getFrameID(const char* line) {
     return atoi(frame_str);
 }
 
-char* getDialog(const char* line) {
+char* get_dialog(const char* line) {
     //Find the second '>' character
     const char* first_bracket = strchr(line, '>');
     if (first_bracket == NULL) return NULL;

@@ -4,7 +4,6 @@ DEPS=src/dialog.h src/ui.h
 
 out: out/main
 	cp ass/* out
-	cp lib/
 
 run: out
 	cd out; ./main

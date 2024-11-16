@@ -7,8 +7,9 @@
 #include <string.h>
 #include <stdlib.h>
 
+
 int init_ui() {
-    InitWindow(640, 480, "Dad Picker");
+    InitWindow(640, 480, app_name);
 
     return 0;
 }
@@ -18,7 +19,7 @@ void loop_ui() {
         BeginDrawing();
 
         ClearBackground(RAYWHITE);
-        DrawText("INIT DAD AI", 1, 1, 50, LIGHTGRAY);
+        DrawText(app_name, 1, 1, 50, LIGHTGRAY);
 
         EndDrawing();
     }

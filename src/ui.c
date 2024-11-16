@@ -14,14 +14,23 @@ int init_ui() {
     return 0;
 }
 
+void update_ui() {
+    // TODO
+}
+
+void draw_ui() {
+    BeginDrawing();
+
+    ClearBackground(RAYWHITE);
+    DrawText(app_name, 1, 1, 50, LIGHTGRAY);
+
+    EndDrawing();
+}
+
 void loop_ui() {
     while (!WindowShouldClose()) {
-        BeginDrawing();
-
-        ClearBackground(RAYWHITE);
-        DrawText(app_name, 1, 1, 50, LIGHTGRAY);
-
-        EndDrawing();
+        update_ui();
+        draw_ui();
     }
 }
 

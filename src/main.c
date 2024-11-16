@@ -18,5 +18,8 @@ int main(void) {
 	deinit_ui(&ui);
     deinit_dialog(&dialog);
 
+    // audio 
+    void InitAudioDevice(void);   
+
     return 0;
 }   

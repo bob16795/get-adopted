@@ -43,6 +43,29 @@ int init_ui(GameUI *ui, Dialog *dia) {
     DialogLine line = get_line(dia, ui->game.dialog);
     show_message(&ui->game.dialog_box, line.dialog);
 
+    ui -> click1 = LoadSound("sounds/click1.wav");
+    ui -> click2 = LoadSound("sounds/click 2.wav");
+    ui -> click3 = LoadSound("sounds/click 3.wav");
+    ui -> creepy1 = LoadSound("sounds/creepy 1.wav");
+    ui -> creepy2 = LoadSound("sounds/creepy 2.wav");
+    ui -> creepy3 = LoadSound("sounds/creepy 3.wav");
+    ui -> gibberish1 = LoadSound("sounds/gibberish 1.wav");
+    ui -> gibberish2 = LoadSound("sounds/gibberish 2.wav");
+    ui -> gibberish3 = LoadSound("sounds/gibberish 3.wav");
+    ui -> meow1 = LoadSound("sounds/meow 1.wav");
+    ui -> meow2 = LoadSound("sounds/meow 2.wav");
+    ui -> meow3 = LoadSound("sounds/meow 3.wav");
+    ui -> news1 = LoadSound("sounds/news 1.wav");
+    ui -> sim1 = LoadSound("sounds/sim 1.wav");
+    ui -> sim2 = LoadSound("sounds/sim 2.wav");
+    ui -> sim3 = LoadSound("sounds/sim 3.wav");
+    ui -> snarky1 = LoadSound("sounds/snarky 1.wav");
+    ui -> snarky2 = LoadSound("sounds/snarky 2.wav");
+    ui -> snarky3 = LoadSound("sounds/snarky 3.wav");
+    ui -> dadSound = LoadSound("sounds/dadSound.wav");
+    ui -> youwin = LoadSound("sounds/youwin.wav");
+    
+    
     return 0;
 }
 
@@ -50,7 +73,6 @@ void update_ui(GameUI *ui) {
     const Vector2 mouse_pos = GetMousePosition();
     const int click = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
     const float dt = GetFrameTime();
-
 
 
     switch (ui->state) {

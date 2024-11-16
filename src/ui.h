@@ -14,12 +14,16 @@ typedef enum {
 typedef struct {
     struct {
         Button play_button;
+
+        Texture title[2];
     } menu;
 
     struct {
         int dialog;
         TextBox dialog_box;
     } game;
+    
+    float timer;
 
     Dialog *dia;
 

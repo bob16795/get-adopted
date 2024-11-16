@@ -19,8 +19,8 @@ bld/web/%.o: src/%.c $(DEPS)
 bld/%.o: src/%.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-out/web/main.html: setup bld/web/scene.o bld/web/main.o bld/web/dialog.o bld/web/ui.o bld/web/character.o bld/web/button.o bld/web/textbox.o
-	$(WEBCC) -o out/web/main.html bld/web/*.o $(WEBLFLAGS)
+out/web/index.html: setup bld/web/scene.o bld/web/main.o bld/web/dialog.o bld/web/ui.o bld/web/character.o bld/web/button.o bld/web/textbox.o
+	$(WEBCC) -o out/web/index.html bld/web/*.o $(WEBLFLAGS)
 
 out/main: setup bld/main.o bld/scene.o bld/dialog.o bld/ui.o bld/character.o bld/button.o bld/textbox.o
 	$(CC) -o out/main bld/*.o $(LFLAGS)
@@ -29,4 +29,4 @@ setup:
 	mkdir -p out bld
 	mkdir -p out/web bld/web
 
-web: out/web/main.html
+web: out/web/index.html

@@ -30,6 +30,27 @@ typedef struct {
     Dialog *dia;
 
     State state;
+    Sound click1;
+    Sound click2;
+    Sound click3;
+    Sound creepy1;
+    Sound creepy2;
+    Sound creepy3;
+    Sound gibberish1;
+    Sound gibberish2;
+    Sound gibberish3;
+    Sound meow1;
+    Sound meow2;
+    Sound meow3;
+    Sound news1;
+    Sound sim1;
+    Sound sim2;
+    Sound sim3;
+    Sound snarky1;
+    Sound snarky2;
+    Sound snarky3;
+    Sound dadSound;
+    Sound youwin;
 
 } GameUI;
 

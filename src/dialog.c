@@ -31,6 +31,7 @@ int init_dialog(Dialog *dia) {
         dia->lines[dia->line_count - 1].identifier = get_id(line);
         dia->lines[dia->line_count - 1].characterFrameID = get_frame_id(line);
         dia->lines[dia->line_count - 1].sceneID = get_scene_id(line);
+        dia->lines[dia->line_count - 1].pointGain = get_points(line);
         dia->lines[dia->line_count - 1].dialog = get_dialog(line);
         
         if (dia->lines[dia->line_count - 1].dialog == NULL) {
@@ -40,10 +41,11 @@ int init_dialog(Dialog *dia) {
             return 1;
         }
         
-        printf("Line %d (Frame %d) (Scene %d): %s\n", 
+        printf("Line %d (Frame %d) (Scene %d) (Points %d): %s\n", 
                dia->lines[dia->line_count - 1].identifier,
                dia->lines[dia->line_count - 1].characterFrameID,
                dia->lines[dia->line_count - 1].sceneID,
+               dia->lines[dia->line_count - 1].pointGain,
                dia->lines[dia->line_count - 1].dialog);
     }
     
@@ -162,15 +164,63 @@ int get_scene_id(const char* line) {
     return atoi(scene_str);
 }
 
+//Get the third ID (SceneID) from format <XXXX><YYYY><ZZZZ><+AA>
+int get_points(const char* line) {
+    // Find first '>'
+    const char* first = strchr(line, '>');
+    if (first == NULL) return 0;
+    
+    //Find second '>'
+    const char* second = strchr(first + 1, '>');
+    if (second == NULL) return 0;
+    
+    //Find start of third tag
+    const char* third = strchr(second + 1, '<');
+    if (third == NULL) return 0;
+
+    //Find start of fourth tag
+    const char* point_start = strchr(third + 1, '<');
+    if (point_start == NULL) return 0;
+    
+    //Skip the '<'
+    point_start++;
+    
+    char scene_str[4] = {0};
+    int i = 0;
+    
+    while (point_start[i] != '>' && i < 4) {
+        scene_str[i] = point_start[i];
+        i++;
+    }
+
+    char* returnStr = calloc(2, sizeof(char));
+    returnStr[0] = point_start[1];
+    returnStr[1] = point_start[2];
+    if (scene_str[0] == '-') {
+        return -1 * atoi(returnStr);
+    } 
+    
+    return atoi(scene_str);
+}
+
 char* get_dialog(const char* line) {
     //Find the second '>' character
-    const char* first_bracket = strchr(line, '>');
-    if (first_bracket == NULL) return NULL;
+    const char* first = strchr(line, '>');
+    if (first == NULL) return 0;
     
-    const char* second_bracket = strchr(first_bracket + 1, '>');
-    if (second_bracket == NULL) return NULL;
+    //Find second '>'
+    const char* second = strchr(first + 1, '>');
+    if (second == NULL) return 0;
+    
+    //Find start of third tag
+    const char* third = strchr(second + 1, '<');
+    if (third == NULL) return 0;
 
-    const char* text_start = strchr(second_bracket + 1, '>');
+    //Find start of fourth tag
+    const char* fourth = strchr(third + 1, '<');
+    if (fourth == NULL) return 0;
+
+    const char* text_start = strchr(fourth + 1, '>');
     if (text_start == NULL) return NULL;
     
     text_start++; //Move past the second '>'

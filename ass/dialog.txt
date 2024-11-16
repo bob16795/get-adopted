@@ -1,14 +1,14 @@
 //CRUZ DIALOG - FIRST DATE AT THE PARK
-<0000><0001><0001>Hey are you Tabitha? I matched with you on Kindle.
+<0000><0001><0001><+00>Hey are you Tabitha? I matched with you on Kindle.
 //LINES 0001-0002 ARE PLAYER OPTIONS
-<0001><0002><0002>Yeah, that is me.
-<0002><0002><0002>No wrong gal bud! (Leave)
+<0001><0002><0002><+01>Yeah, that is me.
+<0002><0002><0002><-02>No wrong gal bud! (Leave)
 //IF 0001
-<0003><0001><0000>Well you are so stunning, exactly what I am looking for! See that boy over there? That is my little guy, yup all mine!
+<0003><0001><0000><+00>Well you are so stunning, exactly what I am looking for! See that boy over there? That is my little guy, yup all mine!
 //LINES 0004-0006 ARE PLAYER OPTIONS
-<0004><0002><0000>Cute kid *lights cigarette*
-<0005><0002><0000>Yeah, mine is at home.
-<0006><0002><0000>I hate kids!
+<0004><0002><0000><02>Cute kid *lights cigarette*
+<0005><0002><0000><01>Yeah, mine is at home.
+<0006><0002><0000><-01>I hate kids!
 //IF 0004-0006
 <0007><0001><0000>*Looks at phone* Hey, sorry to cut our time so short but I have an emergency. *You see him run to his car and the little boy runs into a man's arms and they leave this feeling is odd*
 //CRUZ DIALOG - SECOND DATE: TRYING TO CONTACT

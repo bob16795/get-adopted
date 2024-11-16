@@ -23,6 +23,7 @@ int init_ui(GameUI *ui, Dialog *dia) {
         &ui_play,
         ui
     );
+    ui->timer = 0;
     ui->game.dialog = 0;
     ui->game.dialog_box = init_textbox(
         (Rectangle) {
@@ -32,6 +33,9 @@ int init_ui(GameUI *ui, Dialog *dia) {
             TEXTBOX_HEIGHT
         }
     );
+
+    ui->menu.title[0] = LoadTexture("Art/title1.png");
+    ui->menu.title[1] = LoadTexture("Art/title2.png");
 
     ui->dia = dia;
     ui->state = STATE_MENU;
@@ -52,6 +56,8 @@ void update_ui(GameUI *ui) {
     switch (ui->state) {
         case STATE_MENU:
             update_button(&ui->menu.play_button, mouse_pos, click);
+
+            ui->timer += dt;
 
             break;
         case STATE_GAME:
@@ -91,26 +97,41 @@ void draw_ui(GameUI *ui) {
     BeginDrawing();
     
     ClearBackground(BLACK);
+            
+    Texture tex = {0};
 
     switch (ui->state) {
         case STATE_MENU:
-            int w = MeasureText(APP_NAME, 50);
-            
-            DrawText(
-                APP_NAME,
-                (WIDTH - w) / 2,
-                50,
-                50,
+            tex = ui->menu.title[(int)(ui->timer) % 2];
+
+            DrawTexturePro(
+                tex,
+                (Rectangle){0, 0, (float)tex.width, (float)tex.height},
+                (Rectangle){0, 0, WIDTH, HEIGHT},
+                (Vector2){0, 0},
+                0.0,
                 WHITE
             );
+
+            int w = MeasureText(APP_NAME, 50);
 
             draw_button(&ui->menu.play_button);
 
             break;
         case STATE_GAME:
             DialogLine line = get_line(ui->dia, ui_dialog);
-            Texture tex = {0};
             get_scene_texture(line.sceneID, &tex);
+
+            DrawTexturePro(
+                tex,
+                (Rectangle){0, 0, (float)tex.width, (float)tex.height},
+                (Rectangle){0, 0, WIDTH, HEIGHT},
+                (Vector2){0, 0},
+                0.0,
+                WHITE
+            );
+            
+            get_character_texture(line.characterFrameID, &tex);
 
             DrawTexturePro(
                 tex,

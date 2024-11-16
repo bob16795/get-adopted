@@ -74,28 +74,6 @@ void update_ui(GameUI *ui) {
     const int click = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
     const float dt = GetFrameTime();
 
-    PlaySound(ui -> click1);
-    PlaySound(ui -> click2);
-    PlaySound(ui -> click3);
-    PlaySound(ui -> creepy1);
-    PlaySound(ui -> creepy2);
-    PlaySound(ui -> creepy3);
-    PlaySound(ui -> gibberish1);
-    PlaySound(ui -> gibberish2);
-    PlaySound(ui -> gibberish3);
-    PlaySound(ui -> meow1);
-    PlaySound(ui -> meow2);
-    PlaySound(ui -> meow3);
-    PlaySound(ui -> news1);
-    PlaySound(ui -> sim1);
-    PlaySound(ui -> sim2);
-    PlaySound(ui -> sim3);
-    PlaySound(ui -> snarky1);
-    PlaySound(ui -> snarky2);
-    PlaySound(ui -> snarky3);
-    PlaySound(ui -> dadSound);
-    PlaySound(ui -> youwin);
-
 
     switch (ui->state) {
         case STATE_MENU:

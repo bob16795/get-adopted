@@ -8,7 +8,6 @@ int main(void) {
     if (init_dialog()) return 1;
     if (init_ui()) return 1;
 
-
     // loop
     loop_ui();
 

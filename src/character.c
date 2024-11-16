@@ -73,10 +73,8 @@ static int init_frame_array(FILE* fptr) {
 }
 
 char* getPath(int target_id) {
-    static int initialized = 0;
-    
     //Initialize on first call
-    if (!initialized) {
+    if (!frameArray) {
         FILE* fptr = fopen("../ass/frameIDLookup.txt", "r");
         if (fptr == NULL) {
             printf("Error opening file\n");
@@ -89,7 +87,6 @@ char* getPath(int target_id) {
         }
         
         fclose(fptr);
-        initialized = 1;
     }
     
     //Perform binary search

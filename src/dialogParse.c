@@ -3,63 +3,67 @@
 #include <stdlib.h>
 
 struct dialogLine {
-	int identifier;
-	int* dialog;
+    int identifier;
+    char* dialog;
 };
 
-
-char getDialog(int pos, int len, char string[]) {
-
-    char substring[1024];
-
-    int i = 0;
-    while (i < len) {
-        substring[i] = string[pos + i - 1];
+// Get the ID from format <XXXX>
+int getID(const char* line) {
+    char id_str[5] = {0};  // Only take 4 digits
+    // Skip the '<' and copy until '>'
+    int i = 1;  // Start after '<'
+    while (line[i] != '>' && i < 5) {
+        id_str[i-1] = line[i];
         i++;
     }
-
-    substring[i] = '\0';
-    return substring;
+    return atoi(id_str);
 }
 
-char getID(int pos, int len, char string[]) {
-
-	char substring[4];
-
-	int i = 0;
-	while (i < len) {
-		substring[i] = string[pos + i - 1];
-		i++;
-	}
-
-	substring[i] = '\0'; 
-	return substring;
+// Get the dialog text after the ID
+char* getDialog(const char* line) {
+    const char* text_start = strchr(line, '>');
+    if (text_start == NULL) return NULL;
+    
+    text_start++;  // Move past the '>'
+    size_t len = strlen(text_start);
+    char* dialog = malloc(len + 1);
+    if (dialog == NULL) return NULL;
+    
+    strcpy(dialog, text_start);
+    // Remove trailing newline if present
+    if (len > 0 && dialog[len-1] == '\n') {
+        dialog[len-1] = '\0';
+    }
+    
+    return dialog;
 }
-
 
 int main() {
-	//Initalize array of dialog
-	struct dialogLine* allText = calloc(0, sizeof(struct dialogLine));
-	int numLines = 0;
-
-	//Read file
-	FILE *fptr;
-	fptr = fopen("../ass/dialog.txt", "r");
-
-	//Make string to assign lines to
-	char line[1029];
-	
-	while(fgets(line, 1029, fptr)) {
-	//Start reading a line
-	numLines++;
-	allText = realloc(allText, numLines * sizeof(struct dialogLine));
-	
-	char identifier = substring(1, 5, line);
-	char dialog = substring(5, 1029, line);
-
-	printf("%s. %s", identifier, dialog);
-	
-	}
-	return 0;
+    struct dialogLine* allText = NULL;
+    int numLines = 0;
+    
+    FILE* fptr = fopen("../ass/dialog.txt", "r");
+    if (fptr == NULL) {
+        printf("Error opening file\n");
+        return 1;
+    }
+    
+    char line[1029];
+    while (fgets(line, sizeof(line), fptr)) {
+        if (line[0] != '<') continue;  // Skip invalid lines
+        
+        numLines++;
+        struct dialogLine* temp = realloc(allText, numLines * sizeof(struct dialogLine));
+        if (temp == NULL) {
+            printf("Memory allocation failed\n");
+            break;
+        }
+        allText = temp;
+        
+        //Parse the line
+        allText[numLines - 1].identifier = getID(line);
+        allText[numLines - 1].dialog = getDialog(line);
+    }
+    
+    return 0;
 }
-

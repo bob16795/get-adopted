@@ -2,30 +2,34 @@
 #ifndef DIALOG_H
 #define DIALOG_H
 
-struct dialogLine {
+typedef struct {
     int identifier;
     int characterFrameID;
     int sceneID;
     char* dialog;
-};
+} DialogLine;
 
-static int g_totalLines;
-static struct dialogLine* g_allText;
+typedef struct {
+    DialogLine *lines;
+    int line_count;
+} Dialog;
 
 // some consts
 static const char* dialog_file = "dialog.txt";
 
-// Function prototypes
-struct dialogLine getDialogLine(int ID);
-int getID(const char* line);
-int getFrameID(const char* line);
-int getSceneID(const char* line);
+// helpers
+int get_id(const char* line);
+int get_frame_id(const char* line);
+int get_scene_id(const char* line);
 char* get_dialog(const char* line);
 
-int init_dialog(void);  // Changed return type to int for success/failure
-void deinit_dialog(void);  // Added cleanup function
+// Function prototypes
+DialogLine get_line(Dialog *dia, int ID);
 
-char** parseOptions(struct dialogLine* allDialog, int* options, int numOptions);
+int init_dialog(Dialog *dia);  // Changed return type to int for success/failure
+void deinit_dialog(Dialog *dia);  // Added cleanup function
+
+char** parse_options(Dialog* dia, int* options, int numOptions);
 void freeOptions(char** options, int numOptions);  // Added helper to free options
 
 #endif

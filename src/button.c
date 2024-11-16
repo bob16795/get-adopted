@@ -1,10 +1,12 @@
 #include "button.h"
 
-Button init_button(Rectangle pos, char* text, ButtonClickFn onClick) {
+Button init_button(Rectangle pos, char* text, ButtonClickFn onClick, void* data) {
     return (Button){
         pos,
         text,
-        onClick
+        onClick,
+        data,
+        0
     };
 }
 
@@ -15,7 +17,7 @@ void update_button(Button *btn, Vector2 mouse_pos, int click) {
     );
 
     if (click && btn->hover)
-        btn->onClick();
+        btn->onClick(btn->data);
 }
 
 void draw_button(Button *btn) {

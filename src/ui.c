@@ -1,7 +1,6 @@
 #include "ui.h"
 #include "dialog.h"
 #include "character.h"
-#include "button.h"
 
 #include "raylib.h"
 
@@ -9,14 +8,10 @@
 #include <string.h>
 #include <stdlib.h>
 
-static int ui_dialog = 0;
-static State state = STATE_MENU;
-static Button play_button;
-
-int init_ui() {
+int init_ui(GameUI *ui, Dialog *dia) {
     InitWindow(WIDTH, HEIGHT, APP_NAME);
 
-    play_button = init_button(
+    ui->menu.play_button = init_button(
         (Rectangle) {
             (WIDTH - 300) / 2,
             150,
@@ -24,19 +19,22 @@ int init_ui() {
             75,
         },
         "Play",
-        &ui_play
+        &ui_play,
+        ui
     );
+    ui->dia = dia;
+    ui->state = STATE_MENU;
 
     return 0;
 }
 
-void update_ui() {
+void update_ui(GameUI *ui) {
     const Vector2 mouse_pos = GetMousePosition();
     const int click = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
 
-    switch (state) {
+    switch (ui->state) {
         case STATE_MENU:
-            update_button(&play_button, mouse_pos, click);
+            update_button(&ui->menu.play_button, mouse_pos, click);
 
             break;
         case STATE_GAME:
@@ -44,12 +42,12 @@ void update_ui() {
     }
 }
 
-void draw_ui() {
+void draw_ui(GameUI *ui) {
     BeginDrawing();
     
     ClearBackground(BLACK);
 
-    switch (state) {
+    switch (ui->state) {
         case STATE_MENU:
             int w = MeasureText(APP_NAME, 50);
             
@@ -61,11 +59,11 @@ void draw_ui() {
                 WHITE
             );
 
-            draw_button(&play_button);
+            draw_button(&ui->menu.play_button);
 
             break;
         case STATE_GAME:
-            struct dialogLine line = getDialogLine(ui_dialog);
+            DialogLine line = get_line(ui->dia, ui_dialog);
             Texture tex;
             if (get_texture(line.characterFrameID, &tex)) {
                 DrawTexturePro(
@@ -85,18 +83,20 @@ void draw_ui() {
     EndDrawing();
 }
 
-void loop_ui() {
+void loop_ui(GameUI *ui) {
     while (!WindowShouldClose()) {
-        update_ui();
-        draw_ui();
+        update_ui(ui);
+        draw_ui(ui);
     }
 }
 
-void ui_play() {
-    if (state == STATE_MENU)
-        state = STATE_GAME;
+void ui_play(void *data) {
+    GameUI* ui = data;
+            
+    if (ui->state == STATE_MENU)
+        ui->state = STATE_GAME;
 }
 
-void deinit_ui() {
+void deinit_ui(GameUI *ui) {
     CloseWindow();
 }

@@ -4,11 +4,9 @@
 #include <string.h>
 #include <stdlib.h>
 
-//Global variables
-static struct dialogLine* g_allText = NULL;
-static int g_totalLines = 0;
+int init_dialog(Dialog *dia) {
+    memset(dia, 0, sizeof(Dialog));
 
-int init_dialog(void) {
     FILE* fptr = fopen(dialog_file, "r");
     if (fptr == NULL) {
         printf("Error opening file\n");
@@ -19,57 +17,57 @@ int init_dialog(void) {
     while (fgets(line, sizeof(line), fptr)) {
         if (line[0] != '<' || (line[0] == '/' && line[1] == '/')) continue; //Skip invalid lines
         
-        g_totalLines++;
-        struct dialogLine* temp = realloc(g_allText, g_totalLines * sizeof(struct dialogLine));
+        dia->line_count++;
+        DialogLine* temp = realloc(dia->lines, dia->line_count * sizeof(DialogLine));
         if (temp == NULL) {
             printf("Memory allocation failed\n");
-            deinit_dialog();
+            deinit_dialog(dia);
             fclose(fptr);
             return 1;
         }
-        g_allText = temp;
+        dia->lines = temp;
         
         //Parse the line
-        g_allText[g_totalLines - 1].identifier = getID(line);
-        g_allText[g_totalLines - 1].characterFrameID = getFrameID(line);
-        g_allText[g_totalLines - 1].sceneID = getSceneID(line);
-        g_allText[g_totalLines - 1].dialog = get_dialog(line);
+        dia->lines[dia->line_count - 1].identifier = get_id(line);
+        dia->lines[dia->line_count - 1].characterFrameID = get_frame_id(line);
+        dia->lines[dia->line_count - 1].sceneID = get_scene_id(line);
+        dia->lines[dia->line_count - 1].dialog = get_dialog(line);
         
-        if (g_allText[g_totalLines - 1].dialog == NULL) {
-            printf("Failed to allocate dialog for line %d\n", g_totalLines);
-            deinit_dialog();
+        if (dia->lines[dia->line_count - 1].dialog == NULL) {
+            printf("Failed to allocate dialog for line %d\n", dia->line_count);
+            deinit_dialog(dia);
             fclose(fptr);
             return 1;
         }
         
         printf("Line %d (Frame %d) (Scene %d): %s\n", 
-               g_allText[g_totalLines - 1].identifier,
-               g_allText[g_totalLines - 1].characterFrameID,
-               g_allText[g_totalLines - 1].sceneID,
-               g_allText[g_totalLines - 1].dialog);
+               dia->lines[dia->line_count - 1].identifier,
+               dia->lines[dia->line_count - 1].characterFrameID,
+               dia->lines[dia->line_count - 1].sceneID,
+               dia->lines[dia->line_count - 1].dialog);
     }
     
     fclose(fptr);
     return 0;
 }
 
-struct dialogLine getDialogLine(int ID) {
-    return g_allText[ID];
+DialogLine get_line(Dialog *dia, int ID) {
+    return dia->lines[ID];
 }
 
-void deinit_dialog(void) {
-    if (g_allText != NULL) {
-        for (int i = 0; i < g_totalLines; i++) {
-            free(g_allText[i].dialog);
+void deinit_dialog(Dialog *dia) {
+    if (dia->lines != NULL) {
+        for (int i = 0; i < dia->line_count; i++) {
+            free(dia->lines[i].dialog);
         }
-        free(g_allText);
-        g_allText = NULL;
+        free(dia->lines);
+        dia->lines = NULL;
     }
-    g_totalLines = 0;
+    dia->line_count = 0;
 }
 
-char** parseOptions(struct dialogLine* allDialog, int* options, int numOptions) {
-    if (allDialog == NULL || options == NULL || numOptions <= 0) {
+char** parse_options(Dialog* dia, int* options, int numOptions) {
+    if (dia->line_count == NULL || options == NULL || numOptions <= 0) {
         return NULL;
     }
     
@@ -80,8 +78,8 @@ char** parseOptions(struct dialogLine* allDialog, int* options, int numOptions) 
     //For each option, directly get the dialog using the ID as index
     for (int i = 0; i < numOptions; i++) {
         int id = options[i];
-        if (id >= 0 && id < g_totalLines) {  //Check bounds
-            optionsOutput[i] = strdup(allDialog[id].dialog);
+        if (id >= 0 && id < dia->line_count) {  //Check bounds
+            optionsOutput[i] = strdup(dia->lines[id].dialog);
             if (optionsOutput[i] == NULL) {
                 freeOptions(optionsOutput, i);
                 return NULL;
@@ -108,7 +106,7 @@ void freeOptions(char** options, int numOptions) {
 }
 
 //Get the first ID (LineID) from format <XXXX><YYYY><ZZZZ>
-int getID(const char* line) {
+int get_id(const char* line) {
     char id_str[5] = {0}; //Only take 4 digits
     //Skip the '<' and copy until '>'
     int i = 1; //Start after '<'
@@ -120,7 +118,7 @@ int getID(const char* line) {
 }
 
 //Get the second ID (FrameID) from format <XXXX><YYYY><ZZZZ>
-int getFrameID(const char* line) {
+int get_frame_id(const char* line) {
     const char* frame_start = strchr(line, '>');
     if (frame_start == NULL || frame_start[1] != '<') return 0;
     
@@ -137,7 +135,7 @@ int getFrameID(const char* line) {
 }
 
 //Get the third ID (SceneID) from format <XXXX><YYYY><ZZZZ>
-int getSceneID(const char* line) {
+int get_scene_id(const char* line) {
     // Find first '>'
     const char* first = strchr(line, '>');
     if (first == NULL) return 0;

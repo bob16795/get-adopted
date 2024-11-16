@@ -41,14 +41,18 @@ int init_dialog(void) {
             return 1;
         }
         
-        printf("Line %d (Frame %d): %s\n", 
-               g_allText[g_totalLines - 1].identifier,
-               g_allText[g_totalLines - 1].characterFrameID,
-               g_allText[g_totalLines - 1].dialog);
+        // printf("Line %d (Frame %d): %s\n", 
+        //        g_allText[g_totalLines - 1].identifier,
+        //        g_allText[g_totalLines - 1].characterFrameID,
+        //        g_allText[g_totalLines - 1].dialog);
     }
     
     fclose(fptr);
     return 0;
+}
+
+struct dialogLine getDialogLine(int ID) {
+    return g_allText[ID];
 }
 
 void deinit_dialog(void) {

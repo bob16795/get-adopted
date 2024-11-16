@@ -4,10 +4,10 @@
 //Structure to hold ID-path pairs
 struct sceneData {
     int id;
-    char* path;
+    Texture tex;
 };
 
-char* getScenePath(int target_id);
+int get_scene_texture(int target_id, Texture* tex);
 void cleanup_scene_data(void);
 
 #endif

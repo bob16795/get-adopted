@@ -13,7 +13,7 @@ struct FrameData {
 static struct FrameData* frameArray;
 static int frameCount;
 
-int get_texture(int target_id, Texture* tex);
+int get_character_texture(int target_id, Texture* tex);
 void cleanup_frame_data(void);
 
 #endif

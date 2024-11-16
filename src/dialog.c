@@ -5,15 +5,17 @@
 #include <stdlib.h>
 
 int init_dialog(Dialog *dia) {
+    FILE* fptr;
+    char line[1042];
+    
     memset(dia, 0, sizeof(Dialog));
-
-    FILE* fptr = fopen(dialog_file, "r");
+    
+    fptr = fopen(dialog_file, "r");
     if (fptr == NULL) {
         printf("Error opening file\n");
         return 1;
     }
     
-    char line[1042];
     while (fgets(line, sizeof(line), fptr)) {
         if (line[0] != '<' || (line[0] == '/' && line[1] == '/')) continue; //Skip invalid lines
         
@@ -25,6 +27,7 @@ int init_dialog(Dialog *dia) {
             fclose(fptr);
             return 1;
         }
+
         dia->lines = temp;
         
         //Parse the line
@@ -33,22 +36,34 @@ int init_dialog(Dialog *dia) {
         dia->lines[dia->line_count - 1].sceneID = get_scene_id(line);
         dia->lines[dia->line_count - 1].pointGain = get_points(line);
         dia->lines[dia->line_count - 1].dialog = get_dialog(line);
+        dia->lines[dia->line_count - 1].next_count = 0;
         
         if (dia->lines[dia->line_count - 1].dialog == NULL) {
-            printf("Failed to allocate dialog for line %d\n", dia->line_count);
-            deinit_dialog(dia);
-            fclose(fptr);
-            return 1;
+            // printf("Failed to allocate dialog for line %d\n", dia->line_count);
+            // deinit_dialog(dia);
+            // fclose(fptr);
+            // return 1;
+            // HACK: lazy
+            dia->lines[dia->line_count - 1].dialog = "";
         }
         
-        printf("Line %d (Frame %d) (Scene %d) (Points %d): %s\n", 
-               dia->lines[dia->line_count - 1].identifier,
-               dia->lines[dia->line_count - 1].characterFrameID,
-               dia->lines[dia->line_count - 1].sceneID,
-               dia->lines[dia->line_count - 1].pointGain,
-               dia->lines[dia->line_count - 1].dialog);
+        // printf("Line %d (Frame %d) (Scene %d) (Points %d): %s\n", 
+        //        dia->lines[dia->line_count - 1].identifier,
+        //        dia->lines[dia->line_count - 1].characterFrameID,
+        //        dia->lines[dia->line_count - 1].sceneID,
+        //        dia->lines[dia->line_count - 1].pointGain,
+        //        dia->lines[dia->line_count - 1].dialog);
     }
     
+    fclose(fptr);
+    
+    fptr = fopen(graph_file, "r");
+    while (fgets(line, sizeof(line), fptr)) {
+        int count, idx;
+        for (count = 0, idx = 0; line[idx]; idx ++)
+            count += (line[idx] == ',');
+    }
+
     fclose(fptr);
     return 0;
 }

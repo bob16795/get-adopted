@@ -1,10 +1,11 @@
 #include "textbox.h"
+#define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
 
 TextBox init_textbox(Rectangle pos) {
     return (TextBox) {
         pos,
         LoadTexture("down.png"),
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        "",
         0,
         0,
         0
@@ -59,7 +60,6 @@ void draw_textbox(TextBox *box) {
 
     char *pch = strtok(copy, " ");
     while (pch && (remaining > 0)) {
-        remaining -= 1;
         int width = MeasureText(pch, TEXTBOX_TEXT_HEIGHT);
 
         if (x + width > total_width) {
@@ -72,8 +72,13 @@ void draw_textbox(TextBox *box) {
         }
 
         if (line >= 0) {
+            int cpy_len = strlen(pch) * MIN(1.0, remaining);
+            char *cpy = malloc(cpy_len + 1);
+            memcpy(cpy, pch, cpy_len);
+            cpy[cpy_len] = 0;
+
             DrawText(
-                pch,
+                cpy,
                 inside.x + TEXTBOX_BORDER + x,
                 inside.y + TEXTBOX_BORDER + TEXTBOX_TEXT_HEIGHT * line,
                 TEXTBOX_TEXT_HEIGHT,
@@ -84,6 +89,8 @@ void draw_textbox(TextBox *box) {
         x += width + space_size;
 
         pch = strtok(NULL, " ");
+        
+        remaining -= 1;
     }
 
     if (box->waiting) {
@@ -103,4 +110,11 @@ void draw_textbox(TextBox *box) {
     }
 
     free(copy);
+}
+
+void show_message(TextBox *box, char* text) {
+    box->pc = 0;
+    box->waiting = 0;
+    box->first_line = 0;
+    box->text = text;
 }

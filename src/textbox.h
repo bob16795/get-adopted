@@ -16,6 +16,8 @@ static const int TEXTBOX_TEXT_HEIGHT = (
     TEXTBOX_HEIGHT - TEXTBOX_BORDER * 4
 ) / TEXTBOX_LINES;
 
+typedef void (*ChooseCall)(void*);
+
 typedef struct {
     Rectangle pos;
     Texture down_texture;
@@ -29,5 +31,7 @@ typedef struct {
 TextBox init_textbox(Rectangle pos);
 void update_textbox(TextBox *box, float dt);
 void draw_textbox(TextBox *box);
+void show_message(TextBox *box, char *text);
+void shop_choose(TextBox *box, char **choices, int len, ChooseCall func);
 
 #endif

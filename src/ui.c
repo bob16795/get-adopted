@@ -1,6 +1,7 @@
 #include "ui.h"
 #include "dialog.h"
 #include "character.h"
+#include "scene.h"
 
 #include "raylib.h"
 
@@ -34,6 +35,9 @@ int init_ui(GameUI *ui, Dialog *dia) {
 
     ui->dia = dia;
     ui->state = STATE_MENU;
+
+    DialogLine line = get_line(dia, 0);
+    show_message(&ui->game.dialog_box, line.dialog);
 
     return 0;
 }
@@ -76,21 +80,21 @@ void draw_ui(GameUI *ui) {
 
             break;
         case STATE_GAME:
+            DialogLine line = get_line(ui->dia, ui_dialog);
+            Texture tex = {0};
+            get_scene_texture(line.sceneID, &tex);
+
+            DrawTexturePro(
+                tex,
+                (Rectangle){0, 0, (float)tex.width, (float)tex.height},
+                (Rectangle){0, 0, WIDTH, HEIGHT},
+                (Vector2){0, 0},
+                0.0,
+                WHITE
+            );
+
             draw_textbox(&ui->game.dialog_box);
             
-            // DialogLine line = get_line(ui->dia, ui_dialog);
-            // Texture tex;
-            // if (get_texture(line.characterFrameID, &tex)) {
-            //     DrawTexturePro(
-            //         tex,
-            //         (Rectangle){0, 0, (float)tex.width, (float)tex.height},
-            //         (Rectangle){0, 0, WIDTH, HEIGHT},
-            //         (Vector2){0, 0},
-            //         0,
-            //         WHITE
-            //     );
-            // }
-
             // DrawText(line.dialog, 1, 1, 50, LIGHTGRAY);
             break;
     }

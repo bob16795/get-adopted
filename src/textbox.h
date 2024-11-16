@@ -25,6 +25,8 @@ typedef struct {
 
     int first_line;
     int waiting;
+    int wait_line;
+    int done;
     float pc;
 } TextBox;
 

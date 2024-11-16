@@ -8,6 +8,7 @@ TextBox init_textbox(Rectangle pos) {
         "",
         0,
         0,
+        0,
         0
     };
 }
@@ -21,7 +22,11 @@ void update_textbox(TextBox *box, float dt) {
         }
     } else {
         if (IsKeyDown(KEY_ENTER)) {
-            box->first_line += 1;
+            if (box->wait_line) {
+                box->first_line += 4;
+            } else {
+                box->done = true;
+            }
             box->waiting = false;
         }
     }
@@ -92,6 +97,11 @@ void draw_textbox(TextBox *box) {
         
         remaining -= 1;
     }
+
+    if (remaining > 0) {
+        box->waiting = 1;
+    } 
+        
 
     if (box->waiting) {
         DrawTexturePro(

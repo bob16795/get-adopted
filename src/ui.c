@@ -23,6 +23,7 @@ int init_ui(GameUI *ui, Dialog *dia) {
         &ui_play,
         ui
     );
+    ui->timer = 0;
     ui->game.dialog = 0;
     ui->game.dialog_box = init_textbox(
         (Rectangle) {
@@ -32,6 +33,9 @@ int init_ui(GameUI *ui, Dialog *dia) {
             TEXTBOX_HEIGHT
         }
     );
+
+    ui->menu.title[0] = LoadTexture("Art/title1.png");
+    ui->menu.title[1] = LoadTexture("Art/title2.png");
 
     ui->dia = dia;
     ui->state = STATE_MENU;
@@ -47,11 +51,13 @@ void update_ui(GameUI *ui) {
     const int click = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
     const float dt = GetFrameTime();
 
-    int happynessPoint = 0;
+
 
     switch (ui->state) {
         case STATE_MENU:
             update_button(&ui->menu.play_button, mouse_pos, click);
+
+            ui->timer += dt;
 
             break;
         case STATE_GAME:
@@ -60,9 +66,19 @@ void update_ui(GameUI *ui) {
             if (ui->game.dialog_box.done) {
                 if (IsKeyPressed(KEY_ENTER)) {
                     DialogLine line = get_line(ui->dia, ui->game.dialog);
-                    happynessPoint += line.pointGain;
-                    if (happynessPoint < -1) {
-                        happynessPoint = 0;
+                    ui->game.happynessPoint += line.pointGain;
+                    if (line.characterID != 0) {
+                        ui->game.currChar = line.characterID;
+                    }
+                    if (ui->game.happynessPoint < -1) {
+                        ui->game.happynessPoint = 0;
+                        switch (ui->game.currChar) {
+                            case 1: line = get_line(ui->dia, 184); break;
+                            case 2: line = get_line(ui->dia, 185); break;
+                            case 3: line = get_line(ui->dia, 187); break;
+                            case 4: line = get_line(ui->dia, 186); break;
+                            case 5: line = get_line(ui->dia, 188); break;
+                        }
                     }
                     if (line.next_count) {
                         ui->game.dialog = line.next[0];
@@ -81,26 +97,41 @@ void draw_ui(GameUI *ui) {
     BeginDrawing();
     
     ClearBackground(BLACK);
+            
+    Texture tex = {0};
 
     switch (ui->state) {
         case STATE_MENU:
-            int w = MeasureText(APP_NAME, 50);
-            
-            DrawText(
-                APP_NAME,
-                (WIDTH - w) / 2,
-                50,
-                50,
+            tex = ui->menu.title[(int)(ui->timer) % 2];
+
+            DrawTexturePro(
+                tex,
+                (Rectangle){0, 0, (float)tex.width, (float)tex.height},
+                (Rectangle){0, 0, WIDTH, HEIGHT},
+                (Vector2){0, 0},
+                0.0,
                 WHITE
             );
+
+            int w = MeasureText(APP_NAME, 50);
 
             draw_button(&ui->menu.play_button);
 
             break;
         case STATE_GAME:
             DialogLine line = get_line(ui->dia, ui_dialog);
-            Texture tex = {0};
             get_scene_texture(line.sceneID, &tex);
+
+            DrawTexturePro(
+                tex,
+                (Rectangle){0, 0, (float)tex.width, (float)tex.height},
+                (Rectangle){0, 0, WIDTH, HEIGHT},
+                (Vector2){0, 0},
+                0.0,
+                WHITE
+            );
+            
+            get_character_texture(line.characterFrameID, &tex);
 
             DrawTexturePro(
                 tex,

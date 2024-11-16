@@ -14,21 +14,28 @@ typedef enum {
 typedef struct {
     struct {
         Button play_button;
+
+        Texture title[2];
     } menu;
 
     struct {
         int dialog;
         TextBox dialog_box;
+        int happynessPoint;
+        int currChar;
     } game;
+    
+    float timer;
 
     Dialog *dia;
 
     State state;
+
 } GameUI;
 
 static const char* APP_NAME = "Dad Picker";
-static const int WIDTH = 1280;
-static const int HEIGHT = 960;
+static const int WIDTH = 640;
+static const int HEIGHT = 480;
 
 static int ui_dialog;
 

@@ -37,6 +37,19 @@ int init_dialog(Dialog *dia) {
         dia->lines[dia->line_count - 1].pointGain = get_points(line);
         dia->lines[dia->line_count - 1].dialog = get_dialog(line);
         dia->lines[dia->line_count - 1].next_count = 0;
+
+        /*
+        Cruz: 1
+        Jack: 2
+        Lester: 3
+        Sensei: 4
+        Travis: 5
+        Player/Tabitha: 6
+        */
+
+
+
+
         
         if (dia->lines[dia->line_count - 1].dialog == NULL) {
             // printf("Failed to allocate dialog for line %d\n", dia->line_count);
@@ -46,19 +59,39 @@ int init_dialog(Dialog *dia) {
             // HACK: lazy
             dia->lines[dia->line_count - 1].dialog = "";
         }
-        
-        // printf("Line %d (Frame %d) (Scene %d) (Points %d): %s\n", 
-        //        dia->lines[dia->line_count - 1].identifier,
-        //        dia->lines[dia->line_count - 1].characterFrameID,
-        //        dia->lines[dia->line_count - 1].sceneID,
-        //        dia->lines[dia->line_count - 1].pointGain,
-        //        dia->lines[dia->line_count - 1].dialog);
+
+        if (dia->lines[dia->line_count - 1].characterFrameID < 4) {
+            dia->lines[dia->line_count - 1].characterID = 1;
+        }
+        else if (dia->lines[dia->line_count - 1].characterFrameID < 7) {
+            dia->lines[dia->line_count - 1].characterID = 2;
+        }
+        else if (dia->lines[dia->line_count - 1].characterFrameID < 10) {
+            dia->lines[dia->line_count - 1].characterID = 3;
+        }
+        else if (dia->lines[dia->line_count - 1].characterFrameID < 14) {
+            dia->lines[dia->line_count - 1].characterID = 4;
+        }
+        else if (dia->lines[dia->line_count - 1].characterFrameID < 18 && dia->lines[dia->line_count - 1].characterFrameID > 15) {
+            dia->lines[dia->line_count - 1].characterID = 5;
+        } else {
+            dia->lines[dia->line_count - 1].characterID = 0;
+        }
+        printf("Line %d (Frame %d) (Scene %d) (Points %d): %s\n", 
+               dia->lines[dia->line_count - 1].identifier,
+               dia->lines[dia->line_count - 1].characterFrameID,
+               dia->lines[dia->line_count - 1].sceneID,
+               dia->lines[dia->line_count - 1].pointGain,
+               dia->lines[dia->line_count - 1].dialog);
     }
     
     fclose(fptr);
     
     fptr = fopen(graph_file, "r");
     while (fgets(line, sizeof(line), fptr)) {
+        
+        if (line[0] == '#') continue;
+
         int count, idx;
         for (count = 0, idx = 0; line[idx]; idx ++)
             count += (line[idx] == ',');

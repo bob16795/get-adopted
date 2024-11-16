@@ -2,11 +2,8 @@
 #include "ui.h"
 
 int main(void) {
-    if (init_dialog() != 0) {
-        return 1;
-    }
-    
-	init_ui();
+    if (init_dialog()) return 1;
+    if (init_ui()) return 1;
 
     loop_ui();
 

@@ -1,2 +1,2 @@
-<0001>../ass/Locations/Cruz/FinalDateCruz.png
-<0002>../ass/Locations/Cruz/Park.png
+<0001>./Locations/Cruz/FinalDateCruz.png
+<0002>./Locations/Cruz/Park.png

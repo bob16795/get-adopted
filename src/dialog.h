@@ -8,6 +8,8 @@ typedef struct {
     int sceneID;
     int pointGain;
     char* dialog;
+    int next_count;
+    int* next;
 } DialogLine;
 
 typedef struct {
@@ -17,10 +19,12 @@ typedef struct {
 
 // some consts
 static const char* dialog_file = "dialog.txt";
+static const char* graph_file = "graph.csv";
 
 // helpers
 int get_id(const char* line);
 int get_frame_id(const char* line);
+int get_points(const char* line);
 int get_scene_id(const char* line);
 char* get_dialog(const char* line);
 

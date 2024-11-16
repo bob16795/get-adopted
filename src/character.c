@@ -75,7 +75,7 @@ static int init_frame_array(FILE* fptr) {
 }
 
 
-int get_texture(int target_id, Texture* tex) {
+int get_character_texture(int target_id, Texture* tex) {
     //Initialize on first call
     if (!frameArray) {
         FILE* fptr = fopen("./frameIDLookup.txt", "r");
@@ -96,7 +96,7 @@ int get_texture(int target_id, Texture* tex) {
     struct FrameData key = { .id = target_id };
     tex = bsearch(&key, frameArray, frameCount, sizeof(struct FrameData), compare_frames);
     
-    return 0;
+    return tex != NULL;
 }
 
 //Don't forget to add cleanup function

@@ -36,7 +36,7 @@ int init_ui(GameUI *ui, Dialog *dia) {
     ui->dia = dia;
     ui->state = STATE_MENU;
 
-    DialogLine line = get_line(dia, 0);
+    DialogLine line = get_line(dia, ui->game.dialog);
     show_message(&ui->game.dialog_box, line.dialog);
 
     return 0;
@@ -54,6 +54,18 @@ void update_ui(GameUI *ui) {
             break;
         case STATE_GAME:
             update_textbox(&ui->game.dialog_box, dt);
+
+            if (ui->game.dialog_box.done) {
+                if (IsKeyPressed(KEY_ENTER)) {
+                    DialogLine line = get_line(ui->dia, ui->game.dialog);
+                    if (line.next_count) {
+                        ui->game.dialog = line.next[0];
+
+                        DialogLine msg_line = get_line(ui->dia, ui->game.dialog);
+                        show_message(&ui->game.dialog_box, msg_line.dialog);
+                    }
+                }
+            }
 
             break;
     }

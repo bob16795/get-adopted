@@ -62,6 +62,23 @@ int init_dialog(Dialog *dia) {
         int count, idx;
         for (count = 0, idx = 0; line[idx]; idx ++)
             count += (line[idx] == ',');
+
+        char *pch;
+        pch = strtok(line, ",");
+
+        int base_idx = atoi(pch);
+        
+        dia->lines[base_idx].next = malloc((count - 1) * sizeof(int));
+        dia->lines[base_idx].next_count = count - 1;
+
+        int next_idx = 0;
+
+        pch = strtok(NULL, ",");
+        while (pch) {
+            dia->lines[base_idx].next[next_idx++] = atoi(pch);
+
+            pch = strtok(NULL, ",");
+        }
     }
 
     fclose(fptr);

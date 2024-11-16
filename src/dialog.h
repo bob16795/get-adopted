@@ -15,6 +15,7 @@ extern struct dialogLine* g_allText;
 static const char* dialog_file = "dialog.txt";
 
 // Function prototypes
+struct dialogLine getDialogLine(int ID);
 int getID(const char* line);
 int getFrameID(const char* line);
 char* get_dialog(const char* line);

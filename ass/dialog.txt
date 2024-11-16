@@ -1,3 +1,262 @@
-<0000><0001>Text
-<0001><0001>Other text.
-<0002><0123>More text.
+//CRUZ DIALOG - FIRST DATE AT THE PARK
+<0000><0001>Hey are you Tabitha, I matched with you on Kindle.
+//LINES 0001-0002 ARE PLAYER OPTIONS
+<0001><0002>yeah that is me
+<0002><0002>No wrong gal bud!(Leave)
+//IF 0001
+<0003><0001>Well you are so stunning exactly what I am looking for! See that boy over there. That is my little guy yup all mine!
+//LINES 0004-0006 ARE PLAYER OPTIONS
+<0004><0002>Cute kid *lights cigarette*
+<0005><0002>Yeah mine is at home
+<0006><0002>I hate kids!
+//IF 0004-0006
+<0007><0001>*Looks at phone* Hey sorry to cut our time so short but I have an emergency *You see him run to his car and the little boy runs into a man's arms and they leave this feeling is odd*
+//CRUZ DIALOG - SECOND DATE: TRYING TO CONTACT
+<0008><0002>*You decide to text Cruz but no response, maybe he is busy?*
+//CRUZ DIALOG - FINAL DATE: THE TRUTH
+<0009><0004>Breaking news! A middle aged man by the name of Jeff DaKiller has been caught as the mass murder in Notatownsville and was going by the alias "Cruz" on the dating app Kindle. If you have any information or have been in contact with this man please reach out to the local police department!
+//JACK DIALOG - FIRST DATE: BLOCKKRUSTER
+<0010><0009>Jack pulls up in a beat-up station wagon, the kind that looks like it's been through a demolition derby. He's wearing an old hoodie that says "King of the Grind" and has a nervous smile, but there's something oddly charming about him. You're not sure what to expect as he parks in front of what appears to be an ancient Blockbuster—or rather, BlockKruster.
+<0011><0005>So, uh, I figured we'd go retro tonight. Nothing says romance like picking out a VHS and grabbing a bag of popcorn. What do you think?
+<0012><0009>He gestures grandly at the flickering neon sign, clearly proud of his "creative" date idea.
+//LINES 0013-0015 ARE PLAYER OPTIONS
+<0013><0002>Shoot, I ain't been to one of these in years. Let's see if they got somethin' good!
+<0014><0002>Really, Jack? A video store? Guess it's better than Bogo Burger.
+<0015><0002>This your idea of a date? I'm outta here, Jack.
+//IF 0013-0014
+<0016><0009>Inside, the store smells faintly of old carpet and microwaved popcorn. The shelves are lined with faded movie cases, some of which have clearly seen better days. Jack immediately makes a beeline for the action movie section, pulling out a battered copy of Die Hard.
+<0017><0005>Now this—this is a classic. You can't go wrong with Bruce Willis takin' on bad guys. What do you think, Tabitha?
+//LINES 0018-0020 ARE PLAYER OPTIONS
+<0018><0002>Dang, Jack, you got good taste! Let's grab it and some snacks.
+<0019><0002>Alright, I guess that'll do. Just don't make me watch somethin' boring.
+<0020><0002>Bruce Willis? That's what you picked? I'm out.
+//IF 0018
+<0021><0005>Knew you'd like it! Alright, let's get some popcorn and hit the couch. This is gonna be the best first date ever, I swear.
+//LINES 0022-0024 ARE PLAYER OPTIONS
+<0022><0002>Alright, cowboy, don't let me down. Let's roll!
+<0023><0002>Fine, but this better not be as lame as it sounds.
+<0024><0002>Yeah, no. This is not it. I'm done.
+//IF NON-ENDING OPTIONS
+<0025><0005>Enough chit-chat—let's get this movie goin'. You're gonna love it, I promise!
+//JACK DIALOG - SECOND DATE: LET'S GO GAMBLING!
+<0026><0009>Jack drives you to a small, dimly lit casino that looks like it might double as a bowling alley. The sound of slot machines fills the air as you step inside, and Jack immediately heads for the blackjack tables.
+<0027><0006>Here's the plan: we go in, we grind it out, and we walk out winners. But, uh... you got any extra cash on ya? Just in case we need a little more firepower.
+<0028><0009>He grins sheepishly, already pulling out a crumpled twenty from his pocket.
+//LINES 0029-0031 ARE PLAYER OPTIONS
+<0029><0002>Shoot, Jack, you're a man with a plan. Here's twenty bucks—don't lose it all!
+<0030><0002>Fine, but if you blow all our cash, you owe me big time.
+<0031><0002>You want my money? Hell no. I'm outta here.
+//IF 0029-0030
+<0032><0009>Jack starts playing with an intensity that's almost impressive. He wins a few rounds, but then loses twice as much. Every time, he turns to you with the same hopeful grin.
+<0033><0006>Alright, we're down a little, but this is how the grind works. You gotta lose to win, ya know? How 'bout one more twenty? I'm feelin' lucky!
+//LINES 0034-0036 ARE PLAYER OPTIONS
+<0034><0002>Alright, Jack, but this is the last one. Make it count!
+<0035><0002>Fine, but if you keep losin', you're payin' me back with interest.
+<0036><0002>Nah, I ain't throwin' good money after bad. I'm done.
+//IF NON-ENDING OPTIONS
+<0037><0006>Enough talkin'—time to get back in there and make this money work for us!
+//JACK DIALOG - THIRD DATE: THE EMPTY APARTMENT
+<0038><0009>The third date is at Jack's apartment, which he describes as "minimalist." You step inside and find a barren living space with nothing but a glass-top porch table, two folding lawn chairs, and a single dangling light bulb in the kitchen.
+<0039><0007>Alright, so it's not exactly fancy, but it's home. C'mon, have a seat. I'll grab us some beers.
+<0040><0009>He pulls out two cans of cheap beer from a mini-fridge that's almost as empty as the rest of the place.
+//LINES 0041-0043 ARE PLAYER OPTIONS
+<0041><0002>Well, it's cozy, I guess. Let's see where this goes.
+<0042><0002>Jack, this is... somethin'. You seriously live like this?
+<0043><0002>Nope. Nope, nope, nope. I'm outta here.
+//IF 0041
+<0044><0007>See, darlin'? This is all I need—just you, me, and a place to sit. We don't need all that fancy crap to make this work.
+//LINES 0045-0047 ARE PLAYER OPTIONS
+<0045><0002>Alright, Jack, I guess you're onto somethin'. Let's see if we can make this normal life thing happen.
+<0046><0002>Fine, but you're gettin' some furniture if this is gonna work.
+<0047><0002>Yeah, no. This ain't for me. I'm done.
+//IF NON-ENDING OPTIONS
+<0048><0007>Alright then! Let's sit back, relax, and see what life's got in store for us. We're gonna make it work, Tabitha—I can feel it.
+//JACK DIALOG - PROLOGUE: THE SIMPLE LIFE
+<0049><0009>Six months later, Tabitha and Jack are still together, living in the same barren apartment. They've added a couch (found on the curb) and a second-hand coffee maker. Life is simple, but it works.
+<0050><0009>The only issue? Jack's ex-wife and two kids hate Tabitha.
+<0051><0008>You'll never replace me, honey. And those kids? They ain't never gonna call you mom.
+<0052><0002>That's fine. I don't need their approval. Jack and me—we're solid, and that's all that matters.
+<0053><0007>Darlin', they'll come around eventually. And if they don't? Screw it. It's you and me against the world.
+<0054><0009>As the years pass, Tabitha and Jack build a life together, complete with a second-hand dining table and a rescue dog named Lucky. They may not have much, but they have each other—and that's enough.
+//SENSEI MCCOOL DIALOG - FIRST DATE: DALE * CHOPPERS
+<0055><0009>As the bus pulls up to the mall here in NotaTownsVille, you feel like maybe this date will be a little different. Finally, a fun place! Most of the creeps you've met so far have only taken you to the local Bogo Burger. Walking into the food court, you spot a large man with his hair pulled back tightly in a hair tie. He adjusts his leather jacket, which is emblazoned with a flaming dragon patch.
+<0056><0010>Hello, ma'lady! The name is Sensei McCool, but you can call me Senpai, if you please.
+<0057><0009>He gives a crooked grin, stroking his double chin with exaggerated flair.
+//LINES 0058-0060 ARE PLAYER OPTIONS
+<0058><0002>Well, ain't you just somethin'. Guess I'll play along. Name's Tabitha, but you can call me Queen if ya please.
+<0059><0002>Didn't your Kinder profile say your name was Steven? Anyway Yeah I am here!
+<0060><0002>Not callin' you Sen-whatever, freak. This is done.
+//IF 0058-0059
+<0061><0010>Marvelous! This is already better than my ex-wife! Did you know she's the reason I became a Sensei? Before our parting, I was just a boring guy, not as cool as I am now. It's all about reinvention, right?
+//LINES 0062-0064 ARE PLAYER OPTIONS
+<0062><0002>Dang, you had a wife? Don't look like you could land one, but alright. You're cool now, I guess.
+<0063><0002>Yeah, sure. Whatever you say, big guy.
+<0064><0002>Cool? More like weird as hell. I'm out.
+//IF 0062
+<0065><0011>You have a keen eye, Tabitha. Most people can't see my hidden depths. Beneath this exterior lies a warrior's spirit. Dale * Choppers is just the beginning—this date is going to be legendary!
+<0066><0009>He dramatically pulls a pair of sunglasses from his jacket, despite being indoors.
+//LINES 0067-0069 ARE PLAYER OPTIONS
+<0067><0002>Well, if I'm gettin' a free burger outta this, you can call me your Queen or whatever. Let's roll, McCool.
+<0068><0002>Alright, calm down, Sensei. I ain't crowning you just yet.
+<0069><0002>Yeah, you lost me with this whole 'warrior' crap. I'm done.
+//SENSEI MCCOOL DIALOG - SECOND DATE: GAME STORES AND SNACKIES
+<0070><0009>The second date starts at a dimly lit game store that smells like old carpet and way-too-old pizza. Sensei McCool is crouched down in the anime section, inspecting figurines like a raccoon digging through a trash bin.
+<0071><0010>This place... it's my temple. These shelves hold treasures that fuel my fighting spirit. You see that limited-edition Vegeta statue? That's the kind of energy I bring to life.
+<0072><0009>He stands and brandishes a box of Pocky sticks like they're a sacred offering.
+//LINES 0073-0075 ARE PLAYER OPTIONS
+<0073><0002>Vegeta, huh? Sounds like some kinda diet food, but alright, Sensei. I'm pickin' up what you're layin' down.
+<0074><0002>Uh-huh, sure, you do you. Just don't expect me to bow or nothin'.
+<0075><0002>This is all nerd crap, ain't it? Yeah, I'm outta here.
+//IF 0073-0074
+<0076><0011>I knew you'd understand. Most people don't get it. They say I'm 'too intense' or 'living in a fantasy world,' but not you. You're different, Tabitha. Special.
+<0077><0009>He pauses dramatically, waiting for her to respond like it's an anime monologue.
+//LINES 0078-0080 ARE PLAYER OPTIONS
+<0078><0002>Well, I am kinda special, I guess. But don't get too comfy. I ain't fightin' no battles for ya.
+<0079><0002>Yeah, yeah, special. Can we just grab some snacks and sit down already?
+<0080><0002>Special? You mean like one of them weirdo cosplayers, right? Nah, bye.
+//IF NON-ENDING OPTIONS
+<0081><0011>Now, onward to snacks! A warrior needs fuel, and so does his Queen.
+//SENSEI MCCOOL DIALOG - THIRD DATE: MOM'S HOUSE
+<0082><0009>The third date takes place at Sensei's childhood home—a modest single-story house with a well-manicured lawn and a porch swing. A few garden gnomes dot the flower beds. Inside, the house smells like freshly baked cookies, and Sensei's mom greets you in a neatly ironed apron. She has a warm, Midwestern smile that makes you feel like you've just stepped into a cozy episode of a 90s sitcom.
+<0083><0012>Well, hello there! You must be Tabitha. I've heard so much about you. My, you're even prettier than Sensei said!
+<0084><0009>She wipes her hands on her apron and offers a firm but motherly handshake.
+<0085><0010>Mom, don't go embarrassing me in front of Tabitha! She's a warrior queen, not one of those dime-a-dozen gals.
+<0086><0009>He adjusts his jacket awkwardly as his mom chuckles.
+<0087><0012>Oh, hush now, Sensei. I'm just being friendly. Tabitha, we're having tater tot casserole for dinner—it's an old family recipe. Make yourself at home, dear.
+//LINES 0088-0090 ARE PLAYER OPTIONS
+<0088><0002>Tater tot casserole? Heck yeah, now you're talkin' my language. Let's eat!
+<0089><0002>Uh, thanks, Mrs. McCool. Guess I'll see what all the fuss is about.
+<0090><0002>Yeah, this is... weird. I think I'm gonna head out.
+//IF 0088
+<0091><0012>Well, aren't you a sweetheart! Sensei, you better hold onto this one—she's got good manners.
+<0092><0011>Of course I will, Mom! Tabitha and I, we're like two sides of the same katana blade: sharp, balanced, and unstoppable.
+//LINES 0093-0095 ARE PLAYER OPTIONS
+<0093><0002>Sharp and unstoppable, huh? Guess I'll stick around and see if you live up to all that talk, Sensei.
+<0094><0002>Okay, Sensei, that's a little much, but I'll let it slide since the food smells good.
+<0095><0002>Yeah, you're startin' to sound like a weirdo again. I'm outta here.
+//IF 0089
+<0096><0010>Tabitha, you don't just fit in—you elevate this home. Mom, don't you think she's got the makings of a legend?
+<0097><0012>Legend or not, she's welcome here anytime. Tabitha, would you like some iced tea while we wait for dinner?
+//LINES 0098-0100 ARE PLAYER OPTIONS
+<0098><0002>Well, ain't that sweet of ya, Mrs. McCool. I'll take some tea, sure.
+<0099><0002>Uh, sure, thanks. Not used to this much hospitality, though.
+<0100><0002>Iced tea won't fix this awkward vibe. I'm gonna dip.
+//IF NON-ENDING OPTIONS
+<0101><0011>Enough of this chit-chat! Let's get to the casserole. A warrior never keeps his Queen waiting!
+//SENSEI MCCOOL DIALOG - PROLOGUE
+<0102><0009>It's been six months since that first date at Dale *Choppers*, and somehow, against all odds, Sensei McCool and Tabitha have made it work. Their relationship is an odd mix of adventure and comfort—one part over-the-top anime drama and one part cozy Midwestern domesticity.
+//TONY DIALOG - FIRST DATE: THE LIBRARY
+<0103><0009>Tony and Tabitha meet at a dimly lit library. Tony, clearly older than his pictures, smiles nervously as he adjusts his outdated blazer.
+<0104><0013>Well hello there, young lady. You must be Tabitha! I know I'm a little older than my photos, but I'm young at heart.
+<0105><0009>There is a clear 20-year age difference.
+//LINES 0106-0108 ARE PLAYER OPTIONS
+<0106><0002>That's okay, Tony. I like a man who's been seasoned a bit.
+<0107><0002>Yeah, well, older is one way to put it...
+<0108><0002>Ew, no thanks, Grandpa. I'm out.
+//IF 0106-0107
+<0109><0014>I'm so glad we could meet here. This library is special to me. It's where my late wife and I used to spend our time. Feels like you'd fit right in.
+//LINES 0110-0112 ARE PLAYER OPTIONS
+<0110><0002>Aww, that's kinda sweet, Tony. You're a sentimental guy.
+<0111><0002>Your wife's favorite place was a library? Okay then.
+<0112><0002>That's weird. You really picked this for a date?
+//IF 0110
+<0113><0014>You remind me so much of her. I can't believe how lucky I am to have met someone like you.
+//LINES 0114-0116 ARE PLAYER OPTIONS
+<0114><0002>Well, aren't you a charmer? Guess I'll stick around and see where this goes.
+<0115><0002>Slow down there, cowboy. Let's not jump the gun.
+<0116><0002>You've got issues, Tony. I'm out.
+//IF 0111
+<0117><0014>Yeah, she loved books so much. I don't think I ever met anyone like her... until now.
+//LINES 0118-0120 ARE PLAYER OPTIONS
+<0118><0002>Well, maybe I'll see you again. Let's keep this thing rollin'.
+<0119><0002>Eh, I'll think about it. You're a bit much, Tony.
+<0120><0002>This is a lot. I'm done here.
+//TONY DIALOG - SECOND DATE: THE GRAVE
+<0121><0009>Tony and Tabitha arrive at an overgrown cemetery. He parks his old sedan at the edge of the lot, and they walk through the misty air to a gravestone. Tony seems nervous and overly eager, constantly glancing at Tabitha.
+<0122><0014>I know this might seem a bit... different, but this is where my late wife rests. I wanted to share this part of me with you. I think we're really connecting, you know?
+//LINES 0123-0125 ARE PLAYER OPTIONS
+<0123><0002>Aw, Tony, that's sweet, I guess. She must've been real special.
+<0124><0002>Uh, yeah, I don't know about all this graveyard lovey-dovey stuff.
+<0125><0002>This is creepy as hell, Tony. You need help.
+//IF 0123-0124
+<0126><0014>You remind me so much of her, Tabitha. The way you talk, the way you carry yourself... it's like she's here again, in a way.
+//LINES 0127-0129 ARE PLAYER OPTIONS
+<0127><0002>Well, ain't that somethin'? Guess I've got her spirit or somethin'.
+<0128><0002>Okay, Tony, that's kinda weird. You sure you ain't been drinkin' or nothin'?
+<0129><0002>Yeah, nah, I ain't her and I ain't gonna be her either.
+//IF 0127
+<0130><0014>You don't understand—this feels like fate. Like we were meant to meet. I know we've only just started, but... I think I'm falling for you, Tabitha.
+//LINES 0131-0133 ARE PLAYER OPTIONS
+<0131><0002>Well, ain't you the sweetest? Guess I'll let ya fall a little longer.
+<0132><0002>Tony, don't go gettin' all mushy on me now. Let's see where this goes, alright?
+<0133><0002>Alright, cowboy, you're comin' on way too strong. Pump the brakes!
+//TONY DIALOG - FINAL DATE: PLASTIC COUCHES AND DEAD WIVES
+<0134><0009>Tabitha arrives at Tony's house, greeted by an unusual amount of plastic-wrapped furniture. The house smells faintly of mothballs and mildew. Tony seems nervous but smiles warmly.
+<0135><0013>Welcome! Please, make yourself at home. I'll be right back.
+<0136><0009>Tony leaves Tabitha alone for several minutes. She notices the eerie silence and the overwhelming sense of stagnation in the room. Suddenly, Tony returns, dressed in his late wife's clothes, holding a pistol in hand.
+<0137><0015>You... you're going to replace her. You'll be perfect, just like she was. Don't you see? It's meant to be.
+//TONY DIALOG - PROLOGUE
+<0138><0009>Tabitha is forced out to resemble Tonie's late wife until he passes away. Who knew creepy old men were just that.
+//TRAVIS DIALOG - FIRST DATE: 24/7 GAS STATION
+<0139><0009>The night air is cool as Travis pulls up in his beat-up truck, its muffler rattling like a tin can in a windstorm. He's got a crooked smile, a Marlboro dangling from his lips, and a baseball cap pulled low over his unkempt hair. You're surprised to find yourself at a gas station, of all places, for your first date.
+<0140><0016>Well, here we are! Ain't no better place to get to know someone than the ol' 24/7. They got hot dogs, scratchers, and slushies. Hope ya brought your appetite, darlin'.
+<0141><0009>He slams the truck door harder than necessary and gestures for you to follow him inside.
+//LINES 0142-0144 ARE PLAYER OPTIONS
+<0142><0002>Shoot, this is my kinda place. Let's grab some dogs and hit the jackpot, cowboy.
+<0143><0002>Really, Travis? A gas station? Guess it's better than nothin'.
+<0144><0002>This your idea of a date? I'm outta here, Travis.
+//IF 0142-0143
+<0145><0009>Inside, the smell of fried chicken, motor oil, and stale coffee hits you like a punch to the face. Travis grabs a couple of hot dogs off the roller grill, then tosses a pack of beef jerky and a six-pack onto the counter for good measure.
+<0146><0016>My ex used to say I didn't have good taste, but look at this spread! I call it the Travis Special. It don't get better than this, does it?
+//LINES 0147-0149 ARE PLAYER OPTIONS
+<0147><0002>Dang, Travis, you really know how to treat a lady. Pass me one of them hot dogs.
+<0148><0002>I guess this beats eatin' alone, but barely.
+<0149><0002>Your ex was right—this is pathetic. Bye, Travis.
+//IF 0147
+<0150><0016>That's the spirit, darlin'! You and me, we're like two peas in a gas station pod. Let's head outside and scratch these tickets—I got a feelin' tonight's our lucky night.
+//LINES 0151-0153 ARE PLAYER OPTIONS
+<0151><0002>Alright, cowboy, let's win big. Don't let me down!
+<0152><0002>Fine, but if we don't win, you owe me a real meal next time.
+<0153><0002>This is the dumbest thing I've ever done. I'm done with you.
+//IF NON-ENDING OPTIONS
+<0154><0016>Enough chit-chat! Let's get scratchin'—I feel a winner comin' on!
+//TRAVIS DIALOG - SECOND DATE: CONCERT TIME
+<0155><0009>Travis picks you up in his truck, proudly wearing a Limp Bizkit t-shirt with "Significant Other" printed across the back. You arrive at the concert venue, which is more of a dirt field with a stage set up at one end. Limp Bizkit and Creed are on the lineup, and the crowd is already rowdy, with beer cans flying through the air.
+<0156><0017>Now this—this is livin', Tabitha! Nothin' beats Fred Durst and Scott Stapp in one night. I hope you're ready to mosh, 'cause I'm goin' all in!
+<0157><0009>He cracks open a can of beer and offers you one with a grin.
+//LINES 0158-0160 ARE PLAYER OPTIONS
+<0158><0002>Hell yeah, Travis! Limp Bizkit and Creed? Let's go break somethin'!
+<0159><0002>This ain't exactly Garth Brooks, but I guess it'll do.
+<0160><0002>This? This is your idea of a date? I'm leavin', Travis.
+//IF 0158-0159
+<0161><0009>As Limp Bizkit starts playing "Break Stuff," Travis is already in the middle of the mosh pit, yelling along to the lyrics. He stumbles back to you, drenched in sweat but grinning like a maniac.
+<0162><0017>Ain't this the best? You ever seen a crowd like this? Just wait 'til Creed comes on—they'll make ya feel somethin', I swear.
+//LINES 0163-0165 ARE PLAYER OPTIONS
+<0163><0002>Dang, Travis, you're right—this is wild! Let's keep it goin'!
+<0164><0002>Alright, but don't get any ideas. I'm here for the music, not you.
+<0165><0002>Yeah, this is too much for me. I'm done.
+//IF NON-ENDING OPTIONS
+<0166><0017>No more yappin'—Creed's about to play 'Higher.' Let's get back out there!
+//TRAVIS DIALOG - FINAL DATE: EX-WIFE'S HOUSE
+<0167><0009>For your third date, Travis drives you to a small suburban house. You hesitate when he pulls into the driveway, noticing kids' toys scattered across the lawn and a minivan parked out front.
+<0168><0016>So, uh, this is where I live. Me and my ex-wife, we got an arrangement. It's for the kids, ya know? Don't worry, she's cool with it. C'mon in!
+<0169><0009>Inside, the house smells like spaghetti and spilled juice. Travis's ex-wife, a surprisingly friendly woman, greets you from the kitchen while three kids run screaming through the living room.
+<0170><0018>You must be Tabitha. Well, good luck, hon—you're gonna need it with this one!
+//LINES 0171-0173 ARE PLAYER OPTIONS
+<0171><0002>Well, this is... different. Guess I'll stick around and see how this goes.
+<0172><0002>You live here? With your ex and your kids? Travis, what the hell?
+<0173><0002>Nope. Nope, nope, nope. I'm outta here.
+//IF 0171
+<0174><0016>See, darlin'? You're a real trooper. Most gals wouldn't give me a second look after seein' this setup, but you—you're somethin' special.
+//LINES 0175-0177 ARE PLAYER OPTIONS
+<0175><0002>Special, huh? Alright, Travis, let's see if you're worth all this drama.
+<0176><0002>Fine, but you're on thin ice, cowboy. Don't push your luck.
+<0177><0002>Yeah, no. This is too weird, even for me. I'm out.
+//IF NON-ENDING OPTIONS
+<0178><0016>Alright, let's wrangle these kids, grab a beer, and see what happens!
+//TRAVIS DIALOG - PROLOGUE
+<0179><0009>Eight months later, Tabitha is firmly rooted in Travis's chaotic life. The house is louder now, with two more kids added to the mix—Tabitha's and Travis's. The minivan is still out front, but now it's sporting a "My Kid is a Rockstar at NotaTownsVille Elementary" bumper sticker.
+<0180><0009>Travis's ex-wife, surprisingly, has become more of a partner in crime than an adversary. Together, they navigate the madness of raising five kids under one roof.
+<0181><0002>Well, Travis, you weren't kiddin' when you said I was special. Ain't no other woman who'd put up with all this, but I wouldn't have it any other way.
+<0182><0016>And I wouldn't trade you for nothin', Tabitha. Now, let's pack up the kids and hit the next Limp Bizkit show—they're playin' down at the fairgrounds!
+<0183><0009>As Creed's "With Arms Wide Open" plays on the stereo, Tabitha smiles. Life with Travis might be messy, but it's hers, and she wouldn't trade it for the world.

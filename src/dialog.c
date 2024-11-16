@@ -17,7 +17,7 @@ int init_dialog(void) {
     
     char line[1035];
     while (fgets(line, sizeof(line), fptr)) {
-        if (line[0] != '<') continue; //Skip invalid lines
+        if (line[0] != '<' || (line[0] == '/' && line[1] == '/')) continue; //Skip invalid lines
         
         g_totalLines++;
         struct dialogLine* temp = realloc(g_allText, g_totalLines * sizeof(struct dialogLine));

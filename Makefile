@@ -1,9 +1,9 @@
 CC=gcc
 CFLAGS=-Isrc -Ilib/include
-DEPS=src/dialog.h src/ui.h
+DEPS=src/dialog.h src/ui.h src/character.h
 
 out: out/main
-	cp ass/* out
+	cp -r ass/* out
 
 run: out
 	cd out; ./main
@@ -11,7 +11,7 @@ run: out
 bld/%.o: src/%.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-out/main: bld/main.o bld/dialog.o bld/ui.o
+out/main: bld/main.o bld/dialog.o bld/ui.o bld/character.o
 	$(CC) -Llib -o out/main bld/*.o -lraylib -lm
 
 setup:

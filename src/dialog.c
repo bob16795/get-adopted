@@ -142,15 +142,15 @@ int getSceneID(const char* line) {
     const char* first = strchr(line, '>');
     if (first == NULL) return 0;
     
-    // Find second '>'
+    //Find second '>'
     const char* second = strchr(first + 1, '>');
     if (second == NULL) return 0;
     
-    // Find start of third tag
+    //Find start of third tag
     const char* scene_start = strchr(second + 1, '<');
     if (scene_start == NULL) return 0;
     
-    // Skip the '<'
+    //Skip the '<'
     scene_start++;
     
     char scene_str[5] = {0};

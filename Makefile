@@ -1,6 +1,6 @@
 CC=gcc
-CFLAGS=-Isrc
-DEPS=src/dialog.h
+CFLAGS=-Isrc -Ilib/include
+DEPS=src/dialog.h src/ui.h
 
 out: out/main
 	cp ass/* out
@@ -11,8 +11,8 @@ run: out
 bld/%.o: src/%.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-out/main: bld/main.o bld/dialog.o
-	$(CC) -o out/main bld/*.o
+out/main: bld/main.o bld/dialog.o bld/ui.o
+	$(CC) -o out/main -l raylib bld/*.o
 
 setup:
 	mkdir -p out bld

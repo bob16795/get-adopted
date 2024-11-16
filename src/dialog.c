@@ -59,6 +59,7 @@ int init_dialog(Dialog *dia) {
     
     fptr = fopen(graph_file, "r");
     while (fgets(line, sizeof(line), fptr)) {
+        
         if (line[0] == '#') continue;
 
         int count, idx;

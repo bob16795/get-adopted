@@ -31,8 +31,8 @@ typedef struct {
 } GameUI;
 
 static const char* APP_NAME = "Dad Picker";
-static const int WIDTH = 1280;
-static const int HEIGHT = 960;
+static const int WIDTH = 640;
+static const int HEIGHT = 480;
 
 static int ui_dialog;
 

@@ -1,5 +1,5 @@
-#ifndef MYHEADER_H
-#define MYHEADER_H
+#ifndef DIALOG_H
+#define DIALOG_H
 
 struct dialogLine {
     int identifier;

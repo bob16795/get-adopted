@@ -51,6 +51,8 @@ void update_ui(GameUI *ui) {
     const int click = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
     const float dt = GetFrameTime();
 
+    int happynessPoint = 0;
+
     switch (ui->state) {
         case STATE_MENU:
             update_button(&ui->menu.play_button, mouse_pos, click);
@@ -64,6 +66,10 @@ void update_ui(GameUI *ui) {
             if (ui->game.dialog_box.done) {
                 if (IsKeyPressed(KEY_ENTER)) {
                     DialogLine line = get_line(ui->dia, ui->game.dialog);
+                    happynessPoint += line.pointGain;
+                    if (happynessPoint < -1) {
+                        happynessPoint = 0;
+                    }
                     if (line.next_count) {
                         ui->game.dialog = line.next[0];
 

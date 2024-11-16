@@ -1,5 +1,6 @@
 #include "ui.h"
 #include "dialog.h"
+#include "character.h"
 
 #include "raylib.h"
 
@@ -7,9 +8,10 @@
 #include <string.h>
 #include <stdlib.h>
 
+static int ui_dialog = 0;
 
 int init_ui() {
-    InitWindow(640, 480, app_name);
+    InitWindow(WIDTH, HEIGHT, APP_NAME);
 
     return 0;
 }
@@ -20,9 +22,23 @@ void update_ui() {
 
 void draw_ui() {
     BeginDrawing();
+    
+    ClearBackground(BLACK);
 
-    ClearBackground(RAYWHITE);
-    DrawText(app_name, 1, 1, 50, LIGHTGRAY);
+    struct dialogLine line = getDialogLine(ui_dialog);
+    Texture tex;
+    if (get_texture(line.characterFrameID, &tex)) {
+        DrawTexturePro(
+            tex,
+            (Rectangle){0, 0, (float)tex.width, (float)tex.height},
+            (Rectangle){0, 0, WIDTH, HEIGHT},
+            (Vector2){0, 0},
+            0,
+            WHITE
+        );
+    }
+
+    DrawText(line.dialog, 1, 1, 50, LIGHTGRAY);
 
     EndDrawing();
 }

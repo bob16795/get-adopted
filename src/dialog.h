@@ -18,6 +18,7 @@ static const char* dialog_file = "dialog.txt";
 struct dialogLine getDialogLine(int ID);
 int getID(const char* line);
 int getFrameID(const char* line);
+
 char* get_dialog(const char* line);
 
 int init_dialog(void);  // Changed return type to int for success/failure

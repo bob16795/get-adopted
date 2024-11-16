@@ -76,7 +76,7 @@ static int init_frame_array(FILE* fptr) {
 int get_texture(int target_id, Texture* tex) {
     //Initialize on first call
     if (!frameArray) {
-        FILE* fptr = fopen("../ass/frameIDLookup.txt", "r");
+        FILE* fptr = fopen("./frameIDLookup.txt", "r");
         if (fptr == NULL) {
             printf("Error opening file\n");
             return 1;

@@ -5,8 +5,8 @@
 #include <stdlib.h>
 
 //Global variables
-struct dialogLine* g_allText = NULL;
-int g_totalLines = 0;
+static struct dialogLine* g_allText = NULL;
+static int g_totalLines = 0;
 
 int init_dialog(void) {
     FILE* fptr = fopen(dialog_file, "r");

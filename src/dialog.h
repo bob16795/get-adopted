@@ -9,8 +9,8 @@ struct dialogLine {
     char* dialog;
 };
 
-extern int g_totalLines;
-extern struct dialogLine* g_allText;
+static int g_totalLines;
+static struct dialogLine* g_allText;
 
 // some consts
 static const char* dialog_file = "dialog.txt";

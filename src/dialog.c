@@ -1,11 +1,8 @@
+#include "dialog.h"
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
-struct dialogLine {
-    int identifier;
-    char* dialog;
-};
 
 // Get the ID from format <XXXX>
 int getID(const char* line) {
@@ -38,7 +35,7 @@ char* getDialog(const char* line) {
     return dialog;
 }
 
-int main() {
+int init_dialog() {
     struct dialogLine* allText = NULL;
     int numLines = 0;
     

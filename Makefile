@@ -1,6 +1,6 @@
 CC=gcc
-CFLAGS=-Isrc -Ilib/include
-LFLAGS=-Llib -lraylib -lm
+CFLAGS=-Isrc -Ilib/include -g
+LFLAGS=-Llib -lraylib -lm -g
 DEPS=src/dialog.h src/ui.h src/scene.h src/character.h src/button.h src/textbox.h
 
 WEBCC=emcc
@@ -12,6 +12,9 @@ out: out/main
 
 run: out
 	cd out; ./main
+
+debug: out
+	cd out; gdb ./main
 
 bld/web/%.o: src/%.c $(DEPS)
 	$(WEBCC) -c -o $@ $< $(WEBCFLAGS)

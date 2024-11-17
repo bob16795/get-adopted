@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-    <title>raylib web game</title>
+    <title>Raylib web game</title>
 
     <meta name="title" content="raylib web game">
     <meta name="description" content="New raylib web videogame, developed using raylib videogames library">
@@ -30,6 +30,8 @@
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="https://www.raylib.com/favicon.ico">
+
+
 
     <style>
         body {
@@ -82,8 +84,11 @@
 </head>
 
 <body>
-    <canvas class=emscripten id=canvas oncontextmenu=event.preventDefault() tabindex=-1></canvas>
-    <script>
+    <canvas class=emscripten id=canvas oncontextmenu=event.preventDefault() tabindex=1>
+    </canvas>
+
+
+    <script type='text/javascript'>
         var Module = {
             print: (function () {
             })(),
@@ -92,8 +97,18 @@
                 return canvas;
             })()
         };
+
+        const ctx = document.getElementById("canvas").getContext("2d");
+        const img = new Image();
+
+        img.addEventListener("load", () => {
+            ctx.drawImage(img, 55, 40);
+
+        });
+
+        img.src = "/ass/others/Untitled.jpg";
+
     </script>
-    {{{ SCRIPT }}}
 </body>
 
 </html>

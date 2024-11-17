@@ -8,7 +8,6 @@
 typedef enum {
     STATE_MENU,
     STATE_GAME,
-    STATE_PAUSE,
 } State;
 
 typedef struct {
@@ -51,7 +50,6 @@ typedef struct {
     Sound snarky3;
     Sound dadSound;
     Sound youwin;
-
 } GameUI;
 
 static const char* APP_NAME = "Dad Picker";
@@ -62,7 +60,9 @@ static int ui_dialog;
 
 int init_ui(GameUI *ui, Dialog *dia);
 void loop_ui(GameUI *ui);
+void choose_ui(int choices);
 void ui_play(void *data);
 void deinit_ui(GameUI *ui);
+
 
 #endif

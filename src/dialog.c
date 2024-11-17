@@ -101,8 +101,8 @@ int init_dialog(Dialog *dia) {
 
         int base_idx = atoi(pch);
         
-        dia->lines[base_idx].next = malloc((count - 1) * sizeof(int));
-        dia->lines[base_idx].next_count = count - 1;
+        dia->lines[base_idx].next = malloc((count) * sizeof(int));
+        dia->lines[base_idx].next_count = count;
 
         int next_idx = 0;
 

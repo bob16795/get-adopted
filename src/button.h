@@ -15,6 +15,7 @@ typedef struct {
     void* data;
 
     int hover;
+    Texture tex;
 } Button;
 
 Button init_button(Rectangle pos, char* text, ButtonClickFn onClick, void *data);

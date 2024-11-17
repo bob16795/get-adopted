@@ -3,7 +3,7 @@
 #define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
 #define MAX(X, Y) (((X) > (Y)) ? (X) : (Y))
 
-TextBox init_textbox(Rectangle pos) {
+TextBox init_textbox(Rectangle pos, void *data) {
     TextBox result = (TextBox) {
         pos,
         LoadTexture("down.png"),
@@ -15,33 +15,42 @@ TextBox init_textbox(Rectangle pos) {
         malloc(sizeof(char*)),
         NULL,
         0.0,
-        0
+        0,
+        data
     };
 
     result.text[0] = calloc(1, sizeof(char));
+    result.bg = LoadTexture("others/dialoguebox.png");
 
     return result;
 }
 
 void update_textbox(TextBox *box, float dt) {
     if (box->choices) {
-        if (IsKeyDown(KEY_DOWN)) {
-            box->choice += 1;
+        if (IsKeyPressed(KEY_DOWN)) {
+            box->choice = (box->choice + 1) % box->choices;
         }
-        
+        if (IsKeyPressed(KEY_UP)) {
+            box->choice = (box->choice - 1 + box->choices) % box->choices;
+        }
+        if (IsKeyPressed(KEY_ENTER) && box->cb) {
+            box->cb(box->data, box->choice);
+            box->cb = NULL;
+        }
+
         return;
     }
 
     if (!box->waiting) {
         if (IsKeyDown(KEY_ENTER)) {
-            box->pc += dt * 15.0;
+            box->pc += dt * 10.0;
         } else {
             box->pc += dt * 5.0;
         }
     } else {
-        if (IsKeyDown(KEY_ENTER)) {
+        if (IsKeyPressed(KEY_ENTER)) {
             if (box->wait_line) {
-                box->first_line += 4;
+                box->first_line += 1;
             } else {
                 box->done = true;
             }
@@ -52,9 +61,13 @@ void update_textbox(TextBox *box, float dt) {
 
 void draw_textbox(TextBox *box) {
     int space_size = MeasureText("  ", TEXTBOX_TEXT_HEIGHT);
-
-    DrawRectangleRec(
+    
+    DrawTexturePro(
+        box->bg,
+        (Rectangle){0, 0, box->bg.width, box->bg.height},
         box->pos,
+        (Vector2){0, 0},        
+        0.0,
         WHITE
     );
     
@@ -64,11 +77,6 @@ void draw_textbox(TextBox *box) {
         box->pos.width - TEXTBOX_BORDER * 2,
         box->pos.height - TEXTBOX_BORDER * 2,
     };
-
-    DrawRectangleRec(
-        inside,
-        BLACK
-    );
 
     if (box->choices == 0) {
         float remaining = box->pc;
@@ -91,7 +99,8 @@ void draw_textbox(TextBox *box) {
                 line += 1;
                 if (line >= TEXTBOX_LINES) {
                     box->waiting = 1;
-                    break;
+                    box->wait_line = 1;
+                    return;
                 }
             }
 
@@ -106,7 +115,7 @@ void draw_textbox(TextBox *box) {
                     inside.x + TEXTBOX_BORDER + x,
                     inside.y + TEXTBOX_BORDER + TEXTBOX_TEXT_HEIGHT * line,
                     TEXTBOX_TEXT_HEIGHT,
-                    WHITE
+                    BLACK
                 );
             }
 
@@ -117,8 +126,12 @@ void draw_textbox(TextBox *box) {
             remaining -= 1;
         }
 
-        if (remaining > 0)
+        if (remaining > 0) {
             box->waiting = 1;
+            box->wait_line = 0;
+
+            return;
+        }
 
         if (box->waiting) {
             DrawTexturePro(
@@ -137,24 +150,34 @@ void draw_textbox(TextBox *box) {
         }
 
         free(copy);
-    } else {
-        for (int line = 0; line < (box->choices); line++) {
+    } else {  // choices section
+        for (int line = 0; line < box->choices; line++) {
             const char *str = box->text[line];
-            char *copy = calloc(sizeof(char), MIN(30, strlen(str)));
-            memcpy(copy, str, MIN(29, strlen(str)));
+            char *copy = calloc(sizeof(char), MIN(30, strlen(str) + 1));
+            if (!copy) continue;
+            
+            // Add selection indicator
+            if (line == box->choice) {
+                copy[0] = '>';
+                memcpy(copy + 1, str, MIN(28, strlen(str)));
+            } else {
+                memcpy(copy, str, MIN(29, strlen(str)));
+            }
 
+            Color text_color = (line == box->choice) ? BLACK : BLACK;
+            
             DrawText(
                 copy,
                 inside.x + TEXTBOX_BORDER + TEXTBOX_TEXT_HEIGHT,
                 inside.y + TEXTBOX_BORDER + TEXTBOX_TEXT_HEIGHT * line,
                 TEXTBOX_TEXT_HEIGHT,
-                WHITE
+                text_color
             );
 
             free(copy);
         }
     }
-}   
+}  
 
 void show_message(TextBox *box, char* text) {
     box->pc = 0;
@@ -163,15 +186,27 @@ void show_message(TextBox *box, char* text) {
     box->text = malloc(1 * sizeof(char*));
     box->choices = 0;
     box->text[0] = text;
+    box->done = false;
 }
 
 void show_choose(TextBox *box, char **choices, int len, ChooseCall func) {
     box->pc = 0;
     box->waiting = 0;
     box->first_line = 0;
-    box->text = malloc(1 * sizeof(char*));
     box->choices = len;
-    box->text = choices;
     box->choice = 0;
+    box->done = false;
     box->cb = func;
+
+    // Allocate and copy new choices
+    box->text = malloc(len * sizeof(char*));
+    if (box->text) {
+        for (int i = 0; i < len; i++) {
+            if (choices[i]) {
+                box->text[i] = strdup(choices[i]);
+            } else {
+                box->text[i] = NULL;
+            }
+        }
+    }
 }

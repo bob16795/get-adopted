@@ -6,7 +6,8 @@ Button init_button(Rectangle pos, char* text, ButtonClickFn onClick, void* data)
         text,
         onClick,
         data,
-        0
+        0,
+        LoadTexture("others/play.png")
     };
 }
 
@@ -21,33 +22,22 @@ void update_button(Button *btn, Vector2 mouse_pos, int click) {
 }
 
 void draw_button(Button *btn) {
-    DrawRectangleRec(
-        btn->pos,
+    float rotation = (!btn->hover) ? 0.0 : 0.25; 
+
+    DrawTexturePro(
+        btn->tex,
+        (Rectangle){0, 0, btn->tex.width, btn->tex.height},
+        (Rectangle){
+            btn->pos.x + btn->pos.width / 2,
+            btn->pos.y + btn->pos.height / 2,
+            btn->pos.width,
+            btn->pos.height
+        },
+        (Vector2){
+            btn->pos.width / 2,
+            btn->pos.height / 2
+        },        
+        rotation,
         WHITE
-    );
-    
-    Rectangle inside = (Rectangle) {
-        btn->pos.x + BTN_BORDER,
-        btn->pos.y + BTN_BORDER,
-        btn->pos.width - BTN_BORDER * 2,
-        btn->pos.height - BTN_BORDER * 2,
-    };
-
-    if (!btn->hover)
-        DrawRectangleRec(
-            inside,
-            BLACK
-        );
-
-    const int text_height = inside.height - BTN_BORDER * 2;
-
-    const int width = MeasureText(btn->text, text_height);
-
-    DrawText(
-        btn->text,
-        btn->pos.x + (btn->pos.width - width) / 2,
-        inside.y + BTN_BORDER,
-        text_height,
-        btn->hover ? BLACK : WHITE
     );
 }

@@ -34,7 +34,8 @@ int init_ui(GameUI *ui, Dialog *dia) {
             HEIGHT - TEXTBOX_HEIGHT - TEXTBOX_PADDING,
             WIDTH - TEXTBOX_PADDING * 2,
             TEXTBOX_HEIGHT
-        }
+        },
+        ui
     );
 
     ui->menu.title[0] = LoadTexture("Art/title1.png");
@@ -71,7 +72,6 @@ int init_ui(GameUI *ui, Dialog *dia) {
     ui->sounds[19] = LoadSound("sounds/dadSound.wav");
     ui->winSound = LoadSound("sounds/youwin.wav");
 
-    
     return 0;
 }
 
@@ -115,7 +115,10 @@ void update_ui(GameUI *ui) {
                         PlaySound(ui->winSound);
                     }
 
-                    if (!line.next_count) {
+                    if (line.next_count == 0) {
+                        ui->state = STATE_END;
+                        PlaySound(ui->winSound);
+                    } else if (line.next_count == 1) {
                         ui->game.dialog = line.next[0];
 
                         DialogLine msg_line = get_line(ui->dia, ui->game.dialog);
@@ -128,11 +131,20 @@ void update_ui(GameUI *ui) {
             }
 
             break;
+        case STATE_END:
+            break;
     }
 }
 
-void choose_ui(int choice) {
+void choose_ui(void* data, int choice) {
+    GameUI* ui = data;
+    DialogLine line = get_line(ui->dia, ui->game.dialog);
     
+    if (choice >= 0 && choice < line.next_count) {
+        ui->game.dialog = line.next[choice];
+        DialogLine next_line = get_line(ui->dia, ui->game.dialog);
+        show_message(&ui->game.dialog_box, next_line.dialog);
+    }
 }
 
 void draw_ui(GameUI *ui) {
@@ -141,6 +153,7 @@ void draw_ui(GameUI *ui) {
     ClearBackground(BLACK);
             
     Texture tex = {0};
+    DialogLine line;
     
     switch (ui->state) {
         case STATE_MENU:
@@ -161,7 +174,7 @@ void draw_ui(GameUI *ui) {
 
             break;
         case STATE_GAME:
-            DialogLine line = get_line(ui->dia, ui_dialog);
+            line = get_line(ui->dia, ui->game.dialog);
             get_scene_texture(line.sceneID, &tex);
 
 
@@ -188,6 +201,14 @@ void draw_ui(GameUI *ui) {
             draw_textbox(&ui->game.dialog_box);
             
             // DrawText(line.dialog, 1, 1, 50, LIGHTGRAY);
+            break;
+        case STATE_END:
+            line = get_line(ui->dia, 195);
+
+            int width = MeasureText(line.dialog, 60);
+
+            DrawText(line.dialog, (WIDTH-width)/2, (HEIGHT-50)/2, 50, WHITE);
+
             break;
     }
 

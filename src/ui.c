@@ -129,6 +129,13 @@ void update_ui(GameUI *ui) {
 
                         DialogLine msg_line = get_line(ui->dia, ui->game.dialog);
                         show_message(&ui->game.dialog_box, msg_line.dialog);
+                    } else {
+                        int* lineIDs = calloc(line.next_count, sizeof(int));
+                        for (int i = 0; i < line.next_count; i++) {
+                            lineIDs[i] = line.next[i];
+                        }
+                        char** stringOptions = parse_options(ui->dia, lineIDs, line.next_count);
+                        show_choose(&ui->game.dialog_box, stringOptions, line.next_count, choose_ui);
                     }
                 }
             }
@@ -137,13 +144,17 @@ void update_ui(GameUI *ui) {
     }
 }
 
+void choose_ui(int choice) {
+    
+}
+
 void draw_ui(GameUI *ui) {
     BeginDrawing();
     
     ClearBackground(BLACK);
             
     Texture tex = {0};
-
+    
     switch (ui->state) {
         case STATE_MENU:
             tex = ui->menu.title[(int)(ui->timer) % 2];
@@ -165,6 +176,7 @@ void draw_ui(GameUI *ui) {
         case STATE_GAME:
             DialogLine line = get_line(ui->dia, ui_dialog);
             get_scene_texture(line.sceneID, &tex);
+
 
             DrawTexturePro(
                 tex,

@@ -23,6 +23,9 @@ int init_ui(GameUI *ui, Dialog *dia) {
         &ui_play,
         ui
     );
+
+    InitAudioDevice();
+
     ui->timer = 0;
     ui->game.dialog = 0;
     ui->game.dialog_box = init_textbox(
@@ -43,28 +46,31 @@ int init_ui(GameUI *ui, Dialog *dia) {
     DialogLine line = get_line(dia, ui->game.dialog);
     show_message(&ui->game.dialog_box, line.dialog);
 
-    ui -> click1 = LoadSound("sounds/click1.wav");
-    ui -> click2 = LoadSound("sounds/click 2.wav");
-    ui -> click3 = LoadSound("sounds/click 3.wav");
-    ui -> creepy1 = LoadSound("sounds/creepy 1.wav");
-    ui -> creepy2 = LoadSound("sounds/creepy 2.wav");
-    ui -> creepy3 = LoadSound("sounds/creepy 3.wav");
-    ui -> gibberish1 = LoadSound("sounds/gibberish 1.wav");
-    ui -> gibberish2 = LoadSound("sounds/gibberish 2.wav");
-    ui -> gibberish3 = LoadSound("sounds/gibberish 3.wav");
-    ui -> meow1 = LoadSound("sounds/meow 1.wav");
-    ui -> meow2 = LoadSound("sounds/meow 2.wav");
-    ui -> meow3 = LoadSound("sounds/meow 3.wav");
-    ui -> news1 = LoadSound("sounds/news 1.wav");
-    ui -> sim1 = LoadSound("sounds/sim 1.wav");
-    ui -> sim2 = LoadSound("sounds/sim 2.wav");
-    ui -> sim3 = LoadSound("sounds/sim 3.wav");
-    ui -> snarky1 = LoadSound("sounds/snarky 1.wav");
-    ui -> snarky2 = LoadSound("sounds/snarky 2.wav");
-    ui -> snarky3 = LoadSound("sounds/snarky 3.wav");
-    ui -> dadSound = LoadSound("sounds/dadSound.wav");
-    ui -> youwin = LoadSound("sounds/youwin.wav");
-    
+    ui->sounds = calloc(20, sizeof(Sound));
+    ui->numSounds = 20;
+
+    ui->sounds[0] = LoadSound("sounds/click1.wav");
+    ui->sounds[1] = LoadSound("sounds/click2.wav");
+    ui->sounds[2] = LoadSound("sounds/click3.wav");
+    ui->sounds[3] = LoadSound("sounds/creepy1.wav");
+    ui->sounds[4] = LoadSound("sounds/creepy2.wav");
+    ui->sounds[5] = LoadSound("sounds/creepy3.wav");
+    ui->sounds[6] = LoadSound("sounds/gibberish1.wav");
+    ui->sounds[7] = LoadSound("sounds/gibberish2.wav");
+    ui->sounds[8] = LoadSound("sounds/gibberish3.wav");
+    ui->sounds[9] = LoadSound("sounds/meow1.wav");
+    ui->sounds[10] = LoadSound("sounds/meow2.wav");
+    ui->sounds[11] = LoadSound("sounds/meow3.wav");
+    ui->sounds[12] = LoadSound("sounds/news1.wav");
+    ui->sounds[13] = LoadSound("sounds/sim1.wav");
+    ui->sounds[14] = LoadSound("sounds/sim2.wav");
+    ui->sounds[15] = LoadSound("sounds/sim3.wav");
+    ui->sounds[16] = LoadSound("sounds/snarky1.wav");
+    ui->sounds[17] = LoadSound("sounds/snarky2.wav");
+    ui->sounds[18] = LoadSound("sounds/snarky3.wav");
+    ui->sounds[19] = LoadSound("sounds/dadSound.wav");
+    ui->winSound = LoadSound("sounds/youwin.wav");
+
     
     return 0;
 }
@@ -73,7 +79,6 @@ void update_ui(GameUI *ui) {
     const Vector2 mouse_pos = GetMousePosition();
     const int click = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
     const float dt = GetFrameTime();
-
 
     switch (ui->state) {
         case STATE_MENU:
@@ -92,6 +97,7 @@ void update_ui(GameUI *ui) {
                     if (line.characterID != 0) {
                         ui->game.currChar = line.characterID;
                     }
+
                     if (ui->game.happynessPoint < -1) {
                         ui->game.happynessPoint = 0;
                         switch (ui->game.currChar) {
@@ -102,17 +108,20 @@ void update_ui(GameUI *ui) {
                             case 5: line = get_line(ui->dia, 188); break;
                         }
                     }
-                    if (line.next_count) {
+
+                    int random_sound = GetRandomValue(0, 20);
+                    PlaySound(ui->sounds[random_sound]);
+                    if (ui->game.dialog == 9 || ui->game.dialog == 54 || ui->game.dialog == 102 || ui->game.dialog == 138 || ui->game.dialog == 183) {
+                        PlaySound(ui->winSound);
+                    }
+
+                    if (!line.next_count) {
                         ui->game.dialog = line.next[0];
 
                         DialogLine msg_line = get_line(ui->dia, ui->game.dialog);
                         show_message(&ui->game.dialog_box, msg_line.dialog);
                     } else {
-                        int* lineIDs = calloc(line.next_count, sizeof(int));
-                        for (int i = 0; i < line.next_count; i++) {
-                            lineIDs[i] = line.next[i];
-                        }
-                        char** stringOptions = parse_options(ui->dia, lineIDs, line.next_count);
+                        char** stringOptions = parse_options(ui->dia, line.next, line.next_count);
                         show_choose(&ui->game.dialog_box, stringOptions, line.next_count, choose_ui);
                     }
                 }
@@ -170,7 +179,7 @@ void draw_ui(GameUI *ui) {
             DrawTexturePro(
                 tex,
                 (Rectangle){0, 0, (float)tex.width, (float)tex.height},
-                (Rectangle){0, 0, WIDTH, HEIGHT},
+                (Rectangle){0, 0, WIDTH/2, HEIGHT * 0.7},
                 (Vector2){0, 0},
                 0.0,
                 WHITE

@@ -1,5 +1,7 @@
 #include "textbox.h"
+
 #define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
+#define MAX(X, Y) (((X) > (Y)) ? (X) : (Y))
 
 TextBox init_textbox(Rectangle pos) {
     TextBox result = (TextBox) {
@@ -11,6 +13,8 @@ TextBox init_textbox(Rectangle pos) {
         0,
         0,
         malloc(sizeof(char*)),
+        NULL,
+        0.0,
         0
     };
 
@@ -20,6 +24,14 @@ TextBox init_textbox(Rectangle pos) {
 }
 
 void update_textbox(TextBox *box, float dt) {
+    if (box->choices) {
+        if (IsKeyDown(KEY_DOWN)) {
+            box->choice += 1;
+        }
+        
+        return;
+    }
+
     if (!box->waiting) {
         if (IsKeyDown(KEY_ENTER)) {
             box->pc += dt * 15.0;
@@ -127,13 +139,19 @@ void draw_textbox(TextBox *box) {
         free(copy);
     } else {
         for (int line = 0; line < (box->choices); line++) {
+            const char *str = box->text[line];
+            char *copy = calloc(sizeof(char), MIN(30, strlen(str)));
+            memcpy(copy, str, MIN(29, strlen(str)));
+
             DrawText(
-                box->text[line],
-                inside.x + TEXTBOX_BORDER,
+                copy,
+                inside.x + TEXTBOX_BORDER + TEXTBOX_TEXT_HEIGHT,
                 inside.y + TEXTBOX_BORDER + TEXTBOX_TEXT_HEIGHT * line,
                 TEXTBOX_TEXT_HEIGHT,
                 WHITE
             );
+
+            free(copy);
         }
     }
 }   
@@ -154,5 +172,6 @@ void show_choose(TextBox *box, char **choices, int len, ChooseCall func) {
     box->text = malloc(1 * sizeof(char*));
     box->choices = len;
     box->text = choices;
+    box->choice = 0;
     box->cb = func;
 }

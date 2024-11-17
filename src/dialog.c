@@ -89,7 +89,7 @@ int init_dialog(Dialog *dia) {
     
     fptr = fopen(graph_file, "r");
     while (fgets(line, sizeof(line), fptr)) {
-        
+
         if (line[0] == '#') continue;
 
         int count, idx;
@@ -134,7 +134,7 @@ void deinit_dialog(Dialog *dia) {
 }
 
 char** parse_options(Dialog* dia, int* options, int numOptions) {
-    if (dia->line_count == NULL || options == NULL || numOptions <= 0) {
+    if (options == NULL || numOptions <= 0) {
         return NULL;
     }
     
@@ -159,7 +159,6 @@ char** parse_options(Dialog* dia, int* options, int numOptions) {
             }
         }
     }
-    
     return optionsOutput;
 }
 

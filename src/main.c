@@ -4,8 +4,8 @@
 #include <stdio.h>
 
 int main(void) {
-    GameUI ui;
-    Dialog dialog;
+    GameUI ui = {0};
+    Dialog dialog = {0};
 
     // setup
     if (init_dialog(&dialog)) return 1;
@@ -17,9 +17,6 @@ int main(void) {
     // cleanup
 	deinit_ui(&ui);
     deinit_dialog(&dialog);
-
-    // audio 
-    void InitAudioDevice(void);   
 
     return 0;
 }   

@@ -31,6 +31,8 @@ typedef struct {
     ChooseCall cb;
 
     float pc;
+
+    int choice;
 } TextBox;
 
 TextBox init_textbox(Rectangle pos);
